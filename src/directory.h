@@ -1,10 +1,11 @@
 #ifndef DIRECTORY_H
 #define DIRECTORY_H
 
+#include <string.h>
 #include "./error.h"
 
-bool kdbfs_set_directory(const char* folder);
+const int kdbfs_set_directory(const char* folder);
 
-bool kdbfs_join_path(struct KDBFS_Request* request);
+const bool kdbfs_join_path(struct KDBFS_Request* request);
 
 #endif

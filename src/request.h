@@ -2,6 +2,7 @@
 #define REQUEST_H
 
 #include <stdbool.h>
+#include <stdlib.h>
 
 struct KDBFS_Request {
     const char* url;
@@ -14,6 +15,8 @@ struct KDBFS_Request {
     int error_code;
 };
 
-bool kdbfs_create_request(const char* url, struct KDBFS_Request* request);
+const int kdbfs_create_request(const char* url, struct KDBFS_Request* request);
+
+const bool kdbfs_destroy_request(struct KDBFS_Request* request);
 
 #endif
