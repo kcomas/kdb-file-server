@@ -1,7 +1,7 @@
 
 CC=gcc
-CCFLAGS=-shard -fPIC -DKXVER=3
 SRC=./src
+CCFLAGS=-I $(SRC) -shard -fPIC -DKXVER=3
 
 %.o: %.c
 	$(CC) $(CCFLAGS) -c $< -o $@

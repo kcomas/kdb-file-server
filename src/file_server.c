@@ -17,6 +17,7 @@ void file_server_set_directory(const char* folder) {
 
 char* file_server_join_path(const char* path) {
     if (file_server_directory == NULL) {
+        fprintf(stderr, "ERROR: file_server_directory not set\n");
         char* path2 = (char*) malloc(strlen(path) + 1);
         strcpy(path2, path);
         return path2;
@@ -24,6 +25,6 @@ char* file_server_join_path(const char* path) {
 
     char* joined = (char*) malloc(strlen(file_server_directory) + strlen(path) + 1);
     strcpy(joined, file_server_directory);
-    strcpy(joined, path);
+    strcat(joined, path);
     return joined;
 }

@@ -13,7 +13,7 @@ struct FileMember {
    const char* url;
 };
 
-void file_server_set_directrory(const char* folder);
+void file_server_set_directory(const char* folder);
 
 char* file_server_join_path(const char* path);
 
