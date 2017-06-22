@@ -18,16 +18,29 @@ struct MimeType {
     const char* mime;
 };
 
+struct StatusCodeMessage {
+    const int code;
+    const char* message;
+};
+
 void file_server_set_directory(const char* folder);
 
-const char* file_server_join_path(const char* path);
+char* file_server_quick_copy(const char* str);
+
+char* file_server_join_path(const char* path);
 
 const char* file_server_determine_mime(const char* filename);
+
+const char* file_server_build_headers(const int status_code, const char* mime, const char* body);
 
 const char* file_server_load_file(const char* path);
 
 void file_server_register_file(const char* url, const char* filename);
 
-K file_server_get_file(K url);
+const char* file_server_get_file(const char* url);
+
+K file_server_set_static_dir(K dir);
+
+K file_server_get_file_by_url(K url);
 
 #endif
