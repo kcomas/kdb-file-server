@@ -5,6 +5,11 @@ static struct FileMember File_Server_File_Members[];
 
 static char* file_server_directory = NULL;
 
+const static struct MimeType File_Server_Mime_Types[2] = {
+    {"html", "text/html"},
+    {"js", "application/javascript"}
+};
+
 void file_server_set_directory(const char* folder) {
 
     if (file_server_directory != NULL) {
@@ -15,16 +20,31 @@ void file_server_set_directory(const char* folder) {
     strcpy(file_server_directory, folder);
 }
 
-char* file_server_join_path(const char* path) {
+const char* file_server_join_path(const char* path) {
     if (file_server_directory == NULL) {
         fprintf(stderr, "ERROR: file_server_directory not set\n");
-        char* path2 = (char*) malloc(strlen(path) + 1);
-        strcpy(path2, path);
-        return path2;
+        return path;
     }
 
     char* joined = (char*) malloc(strlen(file_server_directory) + strlen(path) + 1);
     strcpy(joined, file_server_directory);
     strcat(joined, path);
     return joined;
+}
+
+const char* file_server_determine_mime(const char* filename) {
+    const char* dot = strrchr(filename, '.');
+    if (!dot || dot == filename) {
+        return "application/octet-stream";
+    }
+
+    const char* ext = dot + 1;
+
+    for (int i = 0; i < 2; i++) {
+        if (strcmp(File_Server_Mime_Types[i].ext, ext) == 0) {
+            return File_Server_Mime_Types[i].mime;
+        }
+    }
+
+    return "application/octet-stream";
 }

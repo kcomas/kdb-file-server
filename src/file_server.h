@@ -13,11 +13,18 @@ struct FileMember {
    const char* url;
 };
 
+struct MimeType {
+    const char* ext;
+    const char* mime;
+};
+
 void file_server_set_directory(const char* folder);
 
-char* file_server_join_path(const char* path);
+const char* file_server_join_path(const char* path);
 
-char* file_server_load_file(const char* path);
+const char* file_server_determine_mime(const char* filename);
+
+const char* file_server_load_file(const char* path);
 
 void file_server_register_file(const char* url, const char* filename);
 
