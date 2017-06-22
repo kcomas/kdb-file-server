@@ -20,4 +20,7 @@ int main(int argc, char* argv[]) {
    char* example_response = file_server_load_file("test.html");
 
    printf("%s\n\n", example_response);
+
+   file_server_register_file("/test", "test.html");
+   file_server_register_file("/test", "test.txt");
 }

@@ -9,8 +9,8 @@
 #include <stdlib.h>
 
 struct FileMember {
-   const char* filename;
    const char* url;
+   const char* filename;
 };
 
 struct MimeType {
@@ -30,6 +30,8 @@ char* file_server_quick_copy(const char* str);
 char* file_server_join_path(const char* path);
 
 const char* file_server_determine_mime(const char* filename);
+
+const char* file_server_determine_status_name(int status);
 
 char* file_server_build_response(const int status_code, const char* mime, const char* body);
 

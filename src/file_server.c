@@ -3,7 +3,7 @@
 
 static int file_members_count = 0;
 
-static struct FileMember File_Server_File_Members[];
+static struct FileMember** File_Server_File_Members;
 
 static char* file_server_directory = NULL;
 
@@ -11,15 +11,16 @@ const static int file_server_mime_members_length = 2;
 
 const static struct MimeType File_Server_Mime_Types[] = {
     {"html", "text/html"},
-    {"js", "application/javascript"}
+    {"js", "application/javascript"},
+    {"text", "text/plain"}
 };
 
 const static int file_server_status_messages_length = 3;
 
 const static struct StatusCodeMessage File_Server_Status_Messages[] = {
-    {200, "OK"},
-    {404, "Not Found"},
-    {500, "Internal Server Error"}
+    {200, " OK"},
+    {404, " Not Found"},
+    {500, " Internal Server Error"}
 };
 
 void file_server_set_directory(const char* folder) {
@@ -79,6 +80,16 @@ const char* file_server_determine_mime(const char* filename) {
     return "application/octet-stream";
 }
 
+const char* file_server_determine_status_name(int status) {
+    for (int i = 0; i < file_server_status_messages_length; i++) {
+        if (File_Server_Status_Messages[i].code == status) {
+            return File_Server_Status_Messages[i].message;
+        }
+    }
+
+    return "";
+}
+
 char* file_server_build_response(const int status_code, const char* mime, const char* body) {
 
     const char* new_line = "\r\n";
@@ -90,11 +101,13 @@ char* file_server_build_response(const int status_code, const char* mime, const 
     const char* http_version = "HTTP/1.1 ";
     char http_version_code[4];
     snprintf(http_version_code, 4, "%i", status_code);
+    const char* http_status_code_name = file_server_determine_status_name(status_code);
 
-    size_t http_version_length = strlen(http_version) + 3 + new_line_length;
+    size_t http_version_length = strlen(http_version) + 3 + new_line_length + strlen(http_status_code_name);
     char* http_version_line = (char*) malloc(http_version_length);
     strcpy(http_version_line, http_version);
     strcat(http_version_line, http_version_code);
+    strcat(http_version_line, http_status_code_name);
     strcat(http_version_line, new_line);
 
     const char* content_type = "Content-Type: ";
@@ -158,4 +171,26 @@ char* file_server_load_file(const char* filename) {
     free(file_data);
 
     return rsp;
+}
+
+void file_server_register_file(const char* url, const char* filename) {
+    file_members_count++;
+
+    struct FileMember** new_members = (struct FileMember**) malloc(sizeof(struct FileMember) * file_members_count);
+
+    if (file_members_count - 1 > 0) {
+        for (int i = 0; i < file_members_count - 1; i++) {
+            new_members[i] = File_Server_File_Members[i];
+        }
+        free(File_Server_File_Members);
+    }
+
+    struct FileMember* new_member = (struct FileMember*) malloc(sizeof(struct FileMember));
+
+    new_member->url = url;
+    new_member->filename = filename;
+
+    new_members[file_members_count - 1] = new_member;
+
+    File_Server_File_Members = new_members;
 }
