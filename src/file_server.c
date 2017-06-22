@@ -7,12 +7,12 @@ static struct FileMember** File_Server_File_Members;
 
 static char* file_server_directory = NULL;
 
-const static int file_server_mime_members_length = 2;
+const static int file_server_mime_members_length = 3;
 
 const static struct MimeType File_Server_Mime_Types[] = {
     {"html", "text/html"},
     {"js", "application/javascript"},
-    {"text", "text/plain"}
+    {"txt", "text/plain"}
 };
 
 const static int file_server_status_messages_length = 3;
@@ -103,7 +103,7 @@ char* file_server_build_response(const int status_code, const char* mime, const 
     snprintf(http_version_code, 4, "%i", status_code);
     const char* http_status_code_name = file_server_determine_status_name(status_code);
 
-    size_t http_version_length = strlen(http_version) + 3 + new_line_length + strlen(http_status_code_name);
+    size_t http_version_length = strlen(http_version) + 3 + new_line_length + strlen(http_status_code_name) + 1;
     char* http_version_line = (char*) malloc(http_version_length);
     strcpy(http_version_line, http_version);
     strcat(http_version_line, http_version_code);
@@ -112,13 +112,13 @@ char* file_server_build_response(const int status_code, const char* mime, const 
 
     const char* content_type = "Content-Type: ";
 
-    size_t content_type_length = strlen(content_type) + strlen(mime) + new_line_length;
+    size_t content_type_length = strlen(content_type) + strlen(mime) + new_line_length + 1;
     char* content_type_line = (char*) malloc(content_type_length);
     strcpy(content_type_line, content_type);
     strcat(content_type_line, mime);
     strcat(content_type_line, new_line);
 
-    size_t response_length = http_version_length + content_type_length + double_new_line_length + strlen(body);
+    size_t response_length = http_version_length + content_type_length + double_new_line_length + strlen(body) + 1;
     char* response = (char*) malloc(response_length);
     strcpy(response, http_version_line);
     free(http_version_line);
@@ -164,6 +164,10 @@ char* file_server_load_file(const char* filename) {
         return file_server_build_response(500, "text/html", "<h1>Unable To Read File</h1>");
     }
 
+    fclose(f);
+
+    file_data[file_size] = '\0';
+
     const char* mime = file_server_determine_mime(filename);
 
     char* rsp = file_server_build_response(200, mime, file_data);
@@ -193,4 +197,15 @@ void file_server_register_file(const char* url, const char* filename) {
     new_members[file_members_count - 1] = new_member;
 
     File_Server_File_Members = new_members;
+}
+
+char* file_server_get_file(const char* url) {
+
+    for (int i = 0; i < file_members_count; i++) {
+        if (strcmp(File_Server_File_Members[i]->url, url) == 0) {
+            return file_server_load_file(File_Server_File_Members[i]->filename);
+        }
+    }
+
+    return file_server_build_response(404, "text/html", "<h1>404</h1>");
 }

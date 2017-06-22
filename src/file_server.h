@@ -39,7 +39,7 @@ char* file_server_load_file(const char* path);
 
 void file_server_register_file(const char* url, const char* filename);
 
-const char* file_server_get_file(const char* url);
+char* file_server_get_file(const char* url);
 
 K file_server_set_static_dir(K dir);
 
