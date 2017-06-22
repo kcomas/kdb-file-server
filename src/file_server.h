@@ -31,9 +31,9 @@ char* file_server_join_path(const char* path);
 
 const char* file_server_determine_mime(const char* filename);
 
-const char* file_server_build_headers(const int status_code, const char* mime, const char* body);
+char* file_server_build_response(const int status_code, const char* mime, const char* body);
 
-const char* file_server_load_file(const char* path);
+char* file_server_load_file(const char* path);
 
 void file_server_register_file(const char* url, const char* filename);
 

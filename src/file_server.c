@@ -7,14 +7,19 @@ static struct FileMember File_Server_File_Members[];
 
 static char* file_server_directory = NULL;
 
-const static struct MimeType File_Server_Mime_Types[2] = {
+const static int file_server_mime_members_length = 2;
+
+const static struct MimeType File_Server_Mime_Types[] = {
     {"html", "text/html"},
     {"js", "application/javascript"}
 };
 
-const static struct StatusCodeMessage File_Server_Status_Messages[2] = {
+const static int file_server_status_messages_length = 3;
+
+const static struct StatusCodeMessage File_Server_Status_Messages[] = {
     {200, "OK"},
-    {404, "Not Found"}
+    {404, "Not Found"},
+    {500, "Internal Server Error"}
 };
 
 void file_server_set_directory(const char* folder) {
@@ -65,7 +70,7 @@ const char* file_server_determine_mime(const char* filename) {
 
     const char* ext = dot + 1;
 
-    for (int i = 0; i < 2; i++) {
+    for (int i = 0; i < file_server_mime_members_length; i++) {
         if (strcmp(File_Server_Mime_Types[i].ext, ext) == 0) {
             return File_Server_Mime_Types[i].mime;
         }
@@ -74,11 +79,47 @@ const char* file_server_determine_mime(const char* filename) {
     return "application/octet-stream";
 }
 
-const char* file_server_build_headers(const int status_code, const char* mime, const char* body) {
+char* file_server_build_response(const int status_code, const char* mime, const char* body) {
 
+    const char* new_line = "\r\n";
+    const size_t new_line_length = strlen(new_line);
+
+    const char* double_new_line = "\r\n\r\n";
+    const size_t double_new_line_length = strlen(double_new_line);
+
+    const char* http_version = "HTTP/1.1 ";
+    char http_version_code[4];
+    snprintf(http_version_code, 4, "%i", status_code);
+
+    size_t http_version_length = strlen(http_version) + 3 + new_line_length;
+    char* http_version_line = (char*) malloc(http_version_length);
+    strcpy(http_version_line, http_version);
+    strcat(http_version_line, http_version_code);
+    strcat(http_version_line, new_line);
+
+    const char* content_type = "Content-Type: ";
+
+    size_t content_type_length = strlen(content_type) + strlen(mime) + new_line_length;
+    char* content_type_line = (char*) malloc(content_type_length);
+    strcpy(content_type_line, content_type);
+    strcat(content_type_line, mime);
+    strcat(content_type_line, new_line);
+
+    size_t response_length = http_version_length + content_type_length + double_new_line_length + strlen(body);
+    char* response = (char*) malloc(response_length);
+    strcpy(response, http_version_line);
+    free(http_version_line);
+
+    strcat(response, content_type_line);
+    free(content_type_line);
+
+    strcat(response, double_new_line);
+    strcat(response, body);
+
+    return response;
 }
 
-const char* file_server_load_file(const char* filename) {
+char* file_server_load_file(const char* filename) {
 
     FILE* f;
     long file_size;
@@ -91,8 +132,30 @@ const char* file_server_load_file(const char* filename) {
     free(fullname);
 
     if (!f) {
-        return file_server_build_headers(404, "text/html", "<h1>404</h1>");
+        return file_server_build_response(404, "text/html", "<h1>404</h1>");
     }
 
-    return "";
+    fseek(f, 0L, SEEK_END);
+    file_size = ftell(f);
+    rewind(f);
+
+    file_data = malloc(file_size + 1);
+
+    if (!file_data) {
+        fclose(f);
+        return file_server_build_response(500, "text/html", "<h1>Malloc Failed</h1>");
+    }
+
+    if ( 1 != fread(file_data, file_size, 1, f)) {
+        fclose(f);
+        return file_server_build_response(500, "text/html", "<h1>Unable To Read File</h1>");
+    }
+
+    const char* mime = file_server_determine_mime(filename);
+
+    char* rsp = file_server_build_response(200, mime, file_data);
+
+    free(file_data);
+
+    return rsp;
 }
