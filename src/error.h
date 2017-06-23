@@ -6,7 +6,7 @@
 enum KDBFS_Errors {
     KDBFS_SUCCESS,
     KDBFS_REQUEST_MALLOC_FAIL,
-    KDBFS_SET_SERVER_FOLDER_FAIL
+    KDBFS_REQUEST_FILE_PATH_MALLOC_FAIL
 };
 
 const char* kdbfs_get_error_request(struct KDBFS_Request* request);
