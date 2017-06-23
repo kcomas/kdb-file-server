@@ -1,7 +1,7 @@
 
 CC=gcc
 SRC=./src
-CCFLAGS=-I $(SRC) -shard -fPIC -DKXVER=3 -m32
+CCFLAGS=-I $(SRC) -shard -fPIC -DKXVER=3
 
 SOURCES:=$(shell find $(SRC) -name '*.c')
 OBJECTS=$(SOURCES:.c=.o)
