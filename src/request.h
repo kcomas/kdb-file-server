@@ -23,6 +23,6 @@ struct KDBFS_Request {
 
 const int kdbfs_create_request(const char* static_dir, const bool list_dir, const char* url,  struct KDBFS_Request** request);
 
-const bool kdbfs_destroy_request(struct KDBFS_Request* request);
+void kdbfs_destroy_request(struct KDBFS_Request* request);
 
 #endif

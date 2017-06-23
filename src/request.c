@@ -19,3 +19,20 @@ const int kdbfs_create_request(const char* static_dir, const bool list_dir, cons
 
     return 0;
 }
+
+void kdbfs_destroy_request(struct KDBFS_Request* request) {
+
+    if (request->malloc_file_path) {
+        free(request->file_path);
+    }
+
+    if (request->malloc_file_data) {
+        free(request->file_data);
+    }
+
+    if (request->malloc_http_headers) {
+        free(request->http_headers);
+    }
+
+    free(request);
+}

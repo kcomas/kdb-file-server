@@ -19,13 +19,19 @@ int main(int argc, char** argv) {
 
     if (code) {
         printf("%s\n", kdbfs_get_error_from_code(code));
+        return 1;
     }
 
     bool rst = kdbfs_join_path(example_request_1);
 
     if (!rst) {
         printf("%s\n", kdbfs_get_error(example_request_1));
+        return 1;
     }
 
     print_file_info(example_request_1);
+
+    kdbfs_destroy_request(example_request_1);
+
+    return 0;
 }
