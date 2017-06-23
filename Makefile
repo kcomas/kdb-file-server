@@ -17,4 +17,5 @@ test: $(OBJECTS) ./test/test.o
 .PHONY: clean
 clean:
 	rm -fv test/test
+	rm -fv test/*.o
 	rm -fv src/*.o

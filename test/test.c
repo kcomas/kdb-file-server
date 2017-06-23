@@ -1,7 +1,7 @@
 
-#include <stdio.h>
 #include "../src/directory.h"
 #include "../src/stat.h"
+#include "../src/file.h"
 
 void print_file_info(struct KDBFS_Request* request) {
 
@@ -17,6 +17,12 @@ void print_file_stat(struct KDBFS_Request* request) {
     printf("Is File: %d\n", kdbfs_is_file(request));
     printf("Is Dir: %d\n", kdbfs_is_directory(request));
     printf("\n");
+
+}
+
+void print_file_data(struct KDBFS_Request* request) {
+
+    printf("%s\n", request->file_data);
 
 }
 
@@ -49,6 +55,15 @@ int main(int argc, char** argv) {
     }
 
     print_file_stat(example_request_1);
+
+    rst = kdbfs_load_file(example_request_1);
+
+    if (!rst) {
+        printf("%s\n", kdbfs_get_error(example_request_1));
+        return 1;
+    }
+
+    print_file_data(example_request_1);
 
     kdbfs_destroy_request(example_request_1);
 

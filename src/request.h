@@ -12,12 +12,12 @@ struct KDBFS_Request {
     char* file_path;
     bool malloc_file_path;
     struct stat file_stat;
-    const char* mime;
-    int code;
+    const char* mime_type;
+    int status_code;
     const char* message;
     long file_size;
     char* file_data;
-    bool malloc_file_data;
+    bool calloc_file_data;
     int error_code;
     char* http_headers;
     bool malloc_http_headers;

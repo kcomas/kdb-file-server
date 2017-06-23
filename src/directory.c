@@ -16,5 +16,7 @@ const bool kdbfs_join_path(struct KDBFS_Request* request) {
     memcpy(request->file_path, request->static_directory, dir_len);
     memcpy(request->file_path + dir_len, request->file_url, file_len + 1);
 
+    request->malloc_file_path = true;
+
     return true;
 }

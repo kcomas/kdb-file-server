@@ -14,7 +14,7 @@ const int kdbfs_create_request(const char* static_dir, const bool list_dir, cons
     (*request)->list_directory = list_dir;
 
     (*request)->malloc_file_path = false;
-    (*request)->malloc_file_data = false;
+    (*request)->calloc_file_data = false;
     (*request)->malloc_http_headers = false;
 
     return 0;
@@ -26,7 +26,7 @@ void kdbfs_destroy_request(struct KDBFS_Request* request) {
         free(request->file_path);
     }
 
-    if (request->malloc_file_data) {
+    if (request->calloc_file_data) {
         free(request->file_data);
     }
 

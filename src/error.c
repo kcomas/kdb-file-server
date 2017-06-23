@@ -14,6 +14,15 @@ const char* kdbfs_get_error_from_code(const int error_code) {
         case KDBFS_FILE_NOT_FOUND:
             return "File Or Directory Not Found";
 
+        case KDBFS_CANNOT_OPEN_FILE:
+            return "Unable To Open File";
+
+        case KDBFS_CANNOT_CALLOC_FILE_BUFFER:
+            return "Unable To Calloc File Buffer";
+
+        case KDBFS_FILE_READ_FAILED:
+            return "Unable To Read File";
+
         default:
             return "No Error Code Detected, Something Went Wrong";
     }
