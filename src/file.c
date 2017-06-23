@@ -1,7 +1,7 @@
 
 #include "./file.h"
 
-const bool kdbfs_load_file(struct KDBFS_Request* request) {
+bool kdbfs_load_file(struct KDBFS_Request* request) {
 
     FILE *fp;
 
@@ -13,20 +13,18 @@ const bool kdbfs_load_file(struct KDBFS_Request* request) {
     }
 
     fseek(fp, 0L, SEEK_END);
-    request->file_size = ftell(fp);
+    request->http_body_size = ftell(fp);
     rewind(fp);
 
-    request->file_data = (char*) calloc(1, request->file_size + 1);
+    request->http_body= (char*) calloc(1, request->http_body_size + 1);
 
-    if (!request->file_data) {
+    if (!request->http_body) {
         fclose(fp);
         request->error_code = KDBFS_CANNOT_CALLOC_FILE_BUFFER;
         return false;
     }
 
-    request->calloc_file_data = true;
-
-    size_t ret = fread(request->file_data, request->file_size, 1, fp);
+    size_t ret = fread(request->http_body, request->http_body_size, 1, fp);
 
     if (1 != ret) {
         fclose(fp);

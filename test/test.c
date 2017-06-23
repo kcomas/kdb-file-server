@@ -22,7 +22,7 @@ void print_file_stat(struct KDBFS_Request* request) {
 
 void print_file_data(struct KDBFS_Request* request) {
 
-    printf("%s\n", request->file_data);
+    printf("%s\n", request->http_body);
 
 }
 

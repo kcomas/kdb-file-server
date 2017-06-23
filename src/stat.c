@@ -1,15 +1,15 @@
 
 #include "./stat.h"
 
-const bool kdbfs_is_file(struct KDBFS_Request* request) {
+bool kdbfs_is_file(struct KDBFS_Request* request) {
     return S_ISREG(request->file_stat.st_mode);
 }
 
-const bool kdbfs_is_directory(struct KDBFS_Request* request) {
+bool kdbfs_is_directory(struct KDBFS_Request* request) {
     return S_ISDIR(request->file_stat.st_mode);
 }
 
-const bool kdbfs_stat_request(struct KDBFS_Request* request) {
+bool kdbfs_stat_request(struct KDBFS_Request* request) {
 
     int ret = stat(request->file_path, &request->file_stat);
 

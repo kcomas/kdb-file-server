@@ -1,7 +1,7 @@
 
 #include "./request.h"
 
-const int kdbfs_create_request(const char* static_dir, const bool list_dir, const char* url,  struct KDBFS_Request** request) {
+int kdbfs_create_request(const char* static_dir, const bool list_dir, const char* url,  struct KDBFS_Request** request) {
 
     *request = (struct KDBFS_Request*) malloc(sizeof(struct KDBFS_Request));
 
@@ -13,24 +13,24 @@ const int kdbfs_create_request(const char* static_dir, const bool list_dir, cons
     (*request)->static_directory = static_dir;
     (*request)->list_directory = list_dir;
 
-    (*request)->malloc_file_path = false;
-    (*request)->calloc_file_data = false;
-    (*request)->malloc_http_headers = false;
+    (*request)->file_path = NULL;
+    (*request)->http_body = NULL;
+    (*request)->http_headers = NULL;
 
     return 0;
 }
 
 void kdbfs_destroy_request(struct KDBFS_Request* request) {
 
-    if (request->malloc_file_path) {
+    if (request->file_path != NULL) {
         free(request->file_path);
     }
 
-    if (request->calloc_file_data) {
-        free(request->file_data);
+    if (request->http_body != NULL) {
+        free(request->http_body);
     }
 
-    if (request->malloc_http_headers) {
+    if (request->http_headers != NULL) {
         free(request->http_headers);
     }
 

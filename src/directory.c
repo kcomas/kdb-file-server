@@ -1,7 +1,7 @@
 
 #include "./directory.h"
 
-const bool kdbfs_join_path(struct KDBFS_Request* request) {
+bool kdbfs_join_path(struct KDBFS_Request* request) {
 
     const size_t file_len = strlen(request->file_url);
     const size_t dir_len = strlen(request->static_directory);
@@ -15,8 +15,6 @@ const bool kdbfs_join_path(struct KDBFS_Request* request) {
 
     memcpy(request->file_path, request->static_directory, dir_len);
     memcpy(request->file_path + dir_len, request->file_url, file_len + 1);
-
-    request->malloc_file_path = true;
 
     return true;
 }
