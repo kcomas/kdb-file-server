@@ -16,7 +16,8 @@ bool kdbfs_load_file(struct KDBFS_Request* request) {
     request->http_body_size = ftell(fp);
     rewind(fp);
 
-    request->http_body= (char*) calloc(1, request->http_body_size + 1);
+    request->http_body = (char*) malloc(request->http_body_size + 1);
+    memset(request->http_body, '\0', request->http_body_size + 1);
 
     if (!request->http_body) {
         fclose(fp);

@@ -2,6 +2,7 @@
 #define FILE_H
 
 #include <stdio.h>
+#include <string.h>
 #include "./error.h"
 
 bool kdbfs_load_file(struct KDBFS_Request* request);
