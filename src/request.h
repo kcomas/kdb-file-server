@@ -3,6 +3,7 @@
 
 #include <stdbool.h>
 #include <stdlib.h>
+#include <sys/stat.h>
 
 struct KDBFS_Request {
     const char* file_url;
@@ -10,6 +11,7 @@ struct KDBFS_Request {
     bool list_directory;
     char* file_path;
     bool malloc_file_path;
+    struct stat file_stat;
     const char* mime;
     int code;
     const char* message;

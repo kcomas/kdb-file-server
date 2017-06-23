@@ -11,6 +11,9 @@ const char* kdbfs_get_error_from_code(const int error_code) {
         case KDBFS_REQUEST_MALLOC_FAIL:
             return "Failed To Malloc Request Struct";
 
+        case KDBFS_FILE_NOT_FOUND:
+            return "File Or Directory Not Found";
+
         default:
             return "No Error Code Detected, Something Went Wrong";
     }
