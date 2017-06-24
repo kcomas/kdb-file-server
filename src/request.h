@@ -13,11 +13,11 @@ struct KDBFS_Request {
     char* file_path;
     struct stat file_stat;
     const char* mime_type;
-    int status_code;
     const char* message;
     long http_body_size;
     char* http_body;
     int error_code;
+    long http_headers_size;
     char* http_headers;
     clock_t start_time;
     clock_t end_time;
