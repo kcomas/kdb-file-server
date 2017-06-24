@@ -78,6 +78,6 @@ int main(int argc, char** argv) {
 
     ERROR:
     kdbfs_destroy_request(example_request_1);
-    printf("%s\n", kdbfs_get_error(example_request_1));
+    printf("%s\n", kdbfs_get_error(example_request_1).message);
     return example_request_1->error_code;
 }
