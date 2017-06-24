@@ -18,9 +18,10 @@ enum KDBFS_Errors_Codes {
 struct KDBFS_Error {
     const char* message;
     const int status_code;
+    const int error_code;
 };
 
-const struct KDBFS_Error kdbfs_create_error(const char* message, const int status_code);
+const struct KDBFS_Error kdbfs_create_error(const int error_code, const char* message, const int status_code);
 
 const struct KDBFS_Error kdbfs_get_error_from_code(int error_code);
 
