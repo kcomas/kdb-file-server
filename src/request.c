@@ -19,6 +19,8 @@ int kdbfs_create_request(const char* static_dir, const bool list_dir, const char
 
     (*request)->error_code = 0;
 
+    (*request)->start_time = clock();
+
     return 0;
 }
 
@@ -37,4 +39,8 @@ void kdbfs_destroy_request(struct KDBFS_Request* request) {
     }
 
     free(request);
+}
+
+double kdbfs_request_time(struct KDBFS_Request* request) {
+    return (double)(request->end_time - request->start_time) / CLOCKS_PER_SEC * 1000;
 }
