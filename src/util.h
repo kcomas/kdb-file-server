@@ -11,6 +11,8 @@ bool kdbfs_join_two_strings_by_char(char** dest, const char* str1, const char* s
 
 size_t kdbfs_get_strings_lengths(size_t** totals_lengths, const int total, const char** strings);
 
-bool kdbs_join_strings(char** dest, const int total, const char** strings);
+bool kdbfs_join_strings(char** dest, const int total, const char** strings);
+
+bool kdbfs_join_strings_by_char(char** dest, int total, const char** strings, const char join);
 
 #endif

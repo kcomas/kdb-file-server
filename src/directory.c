@@ -1,6 +1,5 @@
 
 #include "./directory.h"
-#include "./util.h"
 
 bool kdbfs_join_path(struct KDBFS_Request* request) {
 

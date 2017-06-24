@@ -57,7 +57,7 @@ size_t kdbfs_get_strings_lengths(size_t** totals_lengths, const int total, const
     return total_size;
 }
 
-bool kdbs_join_strings(char** dest, const int total, const char** strings) {
+bool kdbfs_join_strings(char** dest, const int total, const char** strings) {
 
     size_t* totals_lengths;
 
@@ -69,7 +69,7 @@ bool kdbs_join_strings(char** dest, const int total, const char** strings) {
 
     *dest = malloc(total_size + 1);
 
-    if (!dest) {
+    if (!*dest) {
         return false;
     }
 
@@ -77,12 +77,54 @@ bool kdbs_join_strings(char** dest, const int total, const char** strings) {
 
     for (int i = 0; i < total; i++) {
 
+        size_t length = totals_lengths[i];
+
         if (i == total - 1) {
-            current_position += 1;
+            length += 1;
         }
 
-        memcpy(*dest + current_position, strings[i], totals_lengths[i]);
+        memcpy(*dest + current_position, strings[i], length);
         current_position += totals_lengths[i];
+    }
+
+    free(totals_lengths);
+
+    return true;
+}
+
+
+bool kdbfs_join_strings_by_char(char** dest, int total, const char** strings, const char join) {
+
+    const size_t join_len = 1;
+
+    size_t* totals_lengths;
+
+    size_t total_size = kdbfs_get_strings_lengths(&totals_lengths, total, strings);
+
+    if (total_size == 0) {
+        return false;
+    }
+
+    *dest = malloc(join_len * total + total_size + 1);
+
+    if(!*dest) {
+        return false;
+    }
+
+    size_t current_position = 0;
+
+    for (int i = 0; i < total; i++) {
+
+        size_t length = totals_lengths[i];
+
+        if (i == total - 1) {
+            length += 1;
+        }
+
+        memcpy(*dest + current_position, strings[i], length);
+        current_position += totals_lengths[i];
+        (*dest)[current_position] = join;
+        current_position += join_len;
     }
 
     free(totals_lengths);
