@@ -29,7 +29,7 @@ const struct KDBFS_Error kdbfs_get_error_from_code(int error_code) {
         case KDBFS_CANNOT_OPEN_FILE:
             return kdbfs_create_error(error_code, "Unable To Open File", 500);
 
-        case KDBFS_CANNOT_CALLOC_FILE_BUFFER:
+        case KDBFS_CANNOT_MALLOC_FILE_BUFFER:
             return kdbfs_create_error(error_code, "Unable To Calloc File Buffer", 500);
 
         case KDBFS_FILE_READ_FAILED:
@@ -40,6 +40,9 @@ const struct KDBFS_Error kdbfs_get_error_from_code(int error_code) {
 
         case KDBFS_MIME_TYPE_NOT_FOUND:
             return kdbfs_create_error(error_code, "Mime Type Not Found For File", 200);
+
+        case KDBFS_HEADER_MALLOC_FAIL:
+            return kdbfs_create_error(error_code, "Unable To Malloc Header", 200);
 
         default:
             return kdbfs_create_error(error_code, "No Error Code Detected, Something Went Wrong", 200);

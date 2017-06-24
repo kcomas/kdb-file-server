@@ -54,7 +54,7 @@ bool kdbfs_load_file(struct KDBFS_Request* request) {
 
     if (!request->http_body) {
         fclose(fp);
-        request->error_code = KDBFS_CANNOT_CALLOC_FILE_BUFFER;
+        request->error_code = KDBFS_CANNOT_MALLOC_FILE_BUFFER;
         return false;
     }
 
