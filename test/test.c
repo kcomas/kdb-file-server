@@ -29,6 +29,7 @@ void print_file_data(struct KDBFS_Request* request) {
 void print_mime_type(struct KDBFS_Request* request) {
 
     printf("Mime Type: %s\n", request->mime_type);
+    printf("\n");
 
 }
 
