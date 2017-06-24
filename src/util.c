@@ -34,6 +34,7 @@ bool kdbfs_join_two_strings_by_char(char** dest, const char* str1, const char* s
     memcpy(*dest, str1, len1);
     (*dest)[len1] = join;
     memcpy(*dest + len1 + join_len, str2, len2 + 1);
+    (*dest)[len1 + join_len + len2] = '\0';
 
     return true;
 }
@@ -67,7 +68,7 @@ bool kdbfs_join_strings(char** dest, const int total, const char** strings) {
         return false;
     }
 
-    *dest = malloc(total_size + 1);
+    *dest = (char*) malloc(total_size + 1);
 
     if (!*dest) {
         return false;
@@ -105,7 +106,7 @@ bool kdbfs_join_strings_by_char(char** dest, int total, const char** strings, co
         return false;
     }
 
-    *dest = malloc(join_len * total + total_size + 1);
+    *dest = (char*) malloc(join_len * total + total_size + 1);
 
     if(!*dest) {
         return false;
@@ -126,6 +127,8 @@ bool kdbfs_join_strings_by_char(char** dest, int total, const char** strings, co
         (*dest)[current_position] = join;
         current_position += join_len;
     }
+
+    (*dest)[current_position] = '\0';
 
     free(totals_lengths);
 
