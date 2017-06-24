@@ -26,6 +26,12 @@ void print_file_data(struct KDBFS_Request* request) {
 
 }
 
+void print_mime_type(struct KDBFS_Request* request) {
+
+    printf("Mime Type: %s\n", request->mime_type);
+
+}
+
 int main(int argc, char** argv) {
 
     struct KDBFS_Request* example_request_1;
@@ -34,15 +40,13 @@ int main(int argc, char** argv) {
     int code = kdbfs_create_request("./examples/", true, "test.html", &example_request_1);
 
     if (code) {
-        printf("%s\n", kdbfs_get_error_from_code(code));
-        return 1;
+        goto ERROR;
     }
 
     rst = kdbfs_join_path(example_request_1);
 
     if (!rst) {
-        printf("%s\n", kdbfs_get_error(example_request_1));
-        return 1;
+        goto ERROR;
     }
 
     print_file_info(example_request_1);
@@ -50,8 +54,7 @@ int main(int argc, char** argv) {
     rst = kdbfs_stat_request(example_request_1);
 
     if (!rst) {
-        printf("%s\n", kdbfs_get_error(example_request_1));
-        return 1;
+        goto ERROR;
     }
 
     print_file_stat(example_request_1);
@@ -59,13 +62,21 @@ int main(int argc, char** argv) {
     rst = kdbfs_load_file(example_request_1);
 
     if (!rst) {
-        printf("%s\n", kdbfs_get_error(example_request_1));
-        return 1;
+        goto ERROR;
     }
 
     print_file_data(example_request_1);
 
-    kdbfs_destroy_request(example_request_1);
+    rst = kdbfs_determine_mime_type(example_request_1);
 
-    return 0;
+    if (!rst) {
+        goto ERROR;
+    }
+
+    print_mime_type(example_request_1);
+
+    ERROR:
+    kdbfs_destroy_request(example_request_1);
+    printf("%s\n", kdbfs_get_error(example_request_1));
+    return example_request_1->error_code;
 }

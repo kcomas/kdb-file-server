@@ -23,6 +23,12 @@ const char* kdbfs_get_error_from_code(const int error_code) {
         case KDBFS_FILE_READ_FAILED:
             return "Unable To Read File";
 
+        case KDBFS_FILE_HAS_NO_EXTENSION:
+            return "File Does Not Have An Extension Cannot Determine Mime";
+
+        case KDBFS_MIME_TYPE_NOT_FOUND:
+            return "Mime Type Not Found For File";
+
         default:
             return "No Error Code Detected, Something Went Wrong";
     }
