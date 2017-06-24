@@ -1,7 +1,7 @@
 
 #include "./util.h"
 
-bool kdbfs_join_strings(char** dest, const char* str1, const char* str2) {
+bool kdbfs_join_two_strings(char** dest, const char* str1, const char* str2) {
 
     const size_t len1 = strlen(str1);
     const size_t len2 = strlen(str2);
