@@ -20,9 +20,6 @@ int kdbfs_create_request(const char* static_dir, const bool list_dir, const char
     (*request)->http_body = NULL;
     (*request)->http_headers = NULL;
     (*request)->response = NULL;
-
-    (*request)->error_code = 0;
-
     (*request)->start_time = clock();
 
     return 0;
