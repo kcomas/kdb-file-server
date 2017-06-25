@@ -4,8 +4,8 @@
 #include "./error.h"
 
 struct KDBFS_Header {
-    const char* status_line;
-    const char* content_line;
+    char* status_line;
+    char* content_line;
 };
 
 struct KDBFS_Status_Messages {
@@ -19,7 +19,7 @@ bool kdbfs_create_content_line(struct KDBFS_Header* header, const char* mime_typ
 
 bool kdbfs_create_header(struct KDBFS_Header** header);
 
-bool kdbfs_destory_header(struct KDBFS_Header* header);
+void kdbfs_destory_header(struct KDBFS_Header* header);
 
 bool kdbfs_build_headers(struct KDBFS_Request* request);
 

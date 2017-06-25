@@ -3,7 +3,9 @@
 
 bool kdbfs_join_path(struct KDBFS_Request* request) {
 
-    bool ret = kdbfs_join_two_strings(&request->file_path, request->static_directory, request->file_url);
+    const char* strings[] = { request->static_directory, request->file_url };
+
+    bool ret = kdbfs_join_strings(&request->file_path, 2, strings);
 
     if (!ret) {
        request->error_code = KDBFS_REQUEST_FILE_PATH_MALLOC_FAIL;

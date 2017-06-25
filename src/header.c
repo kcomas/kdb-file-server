@@ -23,15 +23,30 @@ bool kdbfs_create_header(struct KDBFS_Header** header) {
     return true;
 }
 
+void kdbfs_destory_header(struct KDBFS_Header* header) {
+
+    if (header->status_line != NULL) {
+        free(header->status_line);
+    }
+
+    if (header->content_line != NULL) {
+        free(header->content_line);
+    }
+
+    free(header);
+}
+
 bool kdbfs_build_headers(struct KDBFS_Request* request) {
 
     struct KDBFS_Header* header;
 
-    bool created = kdbfs_create_header(&header);
+    bool ret = kdbfs_create_header(&header);
 
-    if (!created) {
+    if (!ret) {
         request->error_code = KDBFS_HEADER_MALLOC_FAIL;
         return false;
     }
+
+    // ret = kdbfs_create_status_line(header, kdbfs_get_error(request).status_code);
 
 }

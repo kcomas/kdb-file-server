@@ -85,18 +85,6 @@ int main(int argc, char** argv) {
 
     print_mime_type(example_request_1);
 
-    char* space_join;
-    rst = kdbfs_join_two_strings_by_char(&space_join, "12", "34" , ' ');
-
-    if (!rst) {
-        printf("Error Could Not Join Strings By Space");
-        return 1;
-    }
-
-    printf("Strings By Space: %s\n", space_join);
-
-    free(space_join);
-
     const char* strings[] = {"12", "34", "56"};
 
     char* simple_join;
