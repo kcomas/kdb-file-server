@@ -85,10 +85,10 @@ int main(int argc, char** argv) {
 
     print_mime_type(example_request_1);
 
-    const char* strings[] = {"12", "34", "56"};
+    const char* strings[] = {"12", "34", "56", ""};
 
     char* simple_join;
-    rst = kdbfs_join_strings(&simple_join, 3, strings);
+    rst = kdbfs_join_strings(&simple_join, 4, strings);
 
     if (!rst) {
         printf("Error Could Not Join Strings");
@@ -100,8 +100,7 @@ int main(int argc, char** argv) {
     free(simple_join);
 
     char* join_by_space;
-
-    rst = kdbfs_join_strings_by_char(&join_by_space, 3, strings, ' ');
+    rst = kdbfs_join_strings_by_char(&join_by_space, 4, strings, ' ');
 
     if (!rst) {
         printf("Error Could Not Join Strings By Space");
@@ -111,6 +110,18 @@ int main(int argc, char** argv) {
     printf("Joined Strings By Space: %s\n", join_by_space);
 
     free(join_by_space);
+
+    char* join_by_lines;
+    rst = kdbfs_join_strings_by_string(&join_by_lines, 4, strings, "--");
+
+    if (!rst) {
+        printf("Could Not Join Strings By String");
+        return 1;
+    }
+
+    printf("Joined Strings By Strings: %s\n", join_by_lines);
+
+    free(join_by_lines);
 
     kdbfs_destroy_request(example_request_1);
 

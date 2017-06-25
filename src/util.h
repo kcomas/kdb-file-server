@@ -11,4 +11,6 @@ bool kdbfs_join_strings(char** dest, const int total, const char** strings);
 
 bool kdbfs_join_strings_by_char(char** dest, int total, const char** strings, const char join);
 
+bool kdbfs_join_strings_by_string(char** dest, int total, const char** strings, const char* join);
+
 #endif

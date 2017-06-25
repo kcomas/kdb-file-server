@@ -96,3 +96,43 @@ bool kdbfs_join_strings_by_char(char** dest, int total, const char** strings, co
 
     return true;
 }
+
+
+bool kdbfs_join_strings_by_string(char** dest, int total, const char** strings, const char* join) {
+
+    size_t join_len = strlen(join);
+
+    size_t* totals_lengths;
+
+    size_t total_size = kdbfs_get_strings_lengths(&totals_lengths, total, strings);
+
+    if (total_size == 0) {
+        return false;
+    }
+
+    *dest = (char*) malloc(join_len * total + total_size + 1);
+
+    if (!*dest) {
+        return false;
+    }
+
+    size_t current_position = 0;
+
+    for (int i = 0; i < total; i++) {
+
+        size_t length = totals_lengths[i];
+
+        if (i == total - 1) {
+            join_len += 1;
+        }
+
+        memcpy(*dest + current_position, strings[i], length);
+        current_position += totals_lengths[i];
+        memcpy(*dest + current_position, join, join_len);
+        current_position += join_len;
+    }
+
+    free(totals_lengths);
+
+    return true;
+}
