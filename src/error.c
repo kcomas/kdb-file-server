@@ -67,3 +67,7 @@ const struct KDBFS_Error kdbfs_get_error_from_code(int error_code) {
 const struct KDBFS_Error kdbfs_get_error(struct KDBFS_Request* request) {
     return kdbfs_get_error_from_code(request->error_code);
 }
+
+void kdbfs_error_to_stderr(struct KDBFS_Error err) {
+    fprintf(stderr, "\nError: %s\n", err.message);
+}

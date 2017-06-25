@@ -16,3 +16,9 @@ bool kdbfs_generate_response(struct KDBFS_Request* request) {
 
     return true;
 }
+
+K kdbfs_error_response() {
+
+    return kp("HTTP/1.1 500 Internal Server Error\r\nContent-Type: text/html\r\n\r\n<h1 style=\"text-align: center\">500</h1>");
+
+}

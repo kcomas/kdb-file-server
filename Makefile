@@ -1,7 +1,11 @@
 
 CC=gcc
 SRC=./src
-CCFLAGS=-I $(SRC) -shard -fPIC -DKXVER=3
+KDB=./kdb
+TARGET=64
+CO=c.o
+CCFLAGS=-shared -fPIC -DKXVER=3 -m$(TARGET)
+CSHAREDO=$(KDB)/l$(TARGET)/$(CO)
 
 SOURCES:=$(shell find $(SRC) -name '*.c')
 OBJECTS=$(SOURCES:.c=.o)
@@ -10,9 +14,9 @@ OBJECTS=$(SOURCES:.c=.o)
 	$(CC) $(CCFLAGS) -c $< -o $@
 
 PHONY: test
-test: CCFLAGS=-g -Wall
+test: CCFLAGS=-I $(KDB) -g -Wall -m$(TARGET) -lpthread
 test: $(OBJECTS) ./test/test.o
-	$(CC) $(CCFLAGS) $^ -o ./test/test
+	$(CC) $(CCFLAGS) $^ $(CSHAREDO) -o ./test/test
 
 .PHONY: clean
 clean:

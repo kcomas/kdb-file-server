@@ -4,6 +4,7 @@
 #include "../src/file.h"
 #include "../src/header.h"
 #include "../src/response.h"
+#include "../src/file_server.h"
 
 void print_file_info(struct KDBFS_Request* request) {
 
@@ -49,10 +50,12 @@ int main(int argc, char** argv) {
     struct KDBFS_Request* example_request_1;
     bool rst;
 
-    int code = kdbfs_create_request("./examples/", true, "test.html", &example_request_1);
+    int code = kdbfs_create_request("./examples/", false, "test.html", &example_request_1);
 
     if (code) {
-        exit_error(example_request_1);
+        struct KDBFS_Error err = kdbfs_get_error_from_code(code);
+        printf("%s\n", err.message);
+        exit(err.error_code);
     }
 
     rst = kdbfs_join_path(example_request_1);
