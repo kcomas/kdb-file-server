@@ -15,6 +15,8 @@ struct KDBFS_Status_Messages {
     const char* status_message;
 };
 
+const char* kdbfs_get_status_message(int status_code);
+
 bool kdbfs_create_status_line(struct KDBFS_Header* header, int status_code);
 
 bool kdbfs_create_content_line(struct KDBFS_Header* header, const char* mime_type);

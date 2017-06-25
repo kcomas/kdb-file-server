@@ -9,6 +9,6 @@
 
 bool kdbfs_generate_response(struct KDBFS_Request* request);
 
-K kdbfs_error_response();
+K kdbfs_error_response(int status_code);
 
 #endif

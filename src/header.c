@@ -9,7 +9,7 @@ const static struct KDBFS_Status_Messages kdbfs_status_messages[] = {
     {500, "Internal Server Error"}
 };
 
-bool kdbfs_create_status_line(struct KDBFS_Header* header, int status_code) {
+const char* kdbfs_get_status_message(int status_code) {
 
     const char* status_msg = NULL;
 
@@ -19,6 +19,14 @@ bool kdbfs_create_status_line(struct KDBFS_Header* header, int status_code) {
             break;
         }
     }
+
+    return status_msg;
+
+}
+
+bool kdbfs_create_status_line(struct KDBFS_Header* header, int status_code) {
+
+    const char* status_msg = kdbfs_get_status_message(status_code);
 
     if (status_msg == NULL) {
         return false;
