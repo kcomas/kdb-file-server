@@ -42,10 +42,19 @@ const struct KDBFS_Error kdbfs_get_error_from_code(int error_code) {
             return kdbfs_create_error(error_code, "Mime Type Not Found For File", 200);
 
         case KDBFS_HEADER_MALLOC_FAIL:
-            return kdbfs_create_error(error_code, "Unable To Malloc Header", 200);
+            return kdbfs_create_error(error_code, "Unable To Malloc Header", 500);
+
+        case KDBFS_CANNOT_CREATE_HEADER_STATUS:
+            return kdbfs_create_error(error_code, "Cannot Create Http Header Status", 500);
+
+        case KDBFS_CANNOT_CREATE_HEADER_CONTENT:
+            return kdbfs_create_error(error_code, "Cannot Create Http Header Content", 500);
+
+        case KDBFS_CANNOT_MERGE_HEADER:
+            return kdbfs_create_error(error_code, "Cannot Join Header Strings", 500);
 
         default:
-            return kdbfs_create_error(error_code, "No Error Code Detected, Something Went Wrong", 200);
+            return kdbfs_create_error(error_code, "No Error Code Detected, Something Went Wrong", 500);
     }
 }
 

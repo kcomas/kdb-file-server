@@ -1,7 +1,9 @@
 #ifndef HEADER_H
 #define HEADER_H
 
+#include <stdio.h>
 #include "./error.h"
+#include "./util.h"
 
 struct KDBFS_Header {
     char* status_line;

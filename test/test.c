@@ -2,6 +2,7 @@
 #include "../src/directory.h"
 #include "../src/stat.h"
 #include "../src/file.h"
+#include "../src/header.h"
 
 void print_file_info(struct KDBFS_Request* request) {
 
@@ -122,6 +123,14 @@ int main(int argc, char** argv) {
     printf("Joined Strings By Strings: %s\n", join_by_lines);
 
     free(join_by_lines);
+
+    rst = kdbfs_build_headers(example_request_1);
+
+    if (!rst) {
+        exit_error(example_request_1);
+    }
+
+    printf("Headers:\n%s\n", example_request_1->http_headers);
 
     kdbfs_destroy_request(example_request_1);
 
