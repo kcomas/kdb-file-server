@@ -6,6 +6,7 @@ TARGET=64
 CO=c.o
 KDBFLAGS=-DKXVER=3 -m$(TARGET)
 CCFLAGS=-shared -fPIC $(KDBFLAGS)
+TESTFLAGS=-g -Wall $(KDBFLAGS) -lpthread
 CSHAREDO=$(KDB)/l$(TARGET)/$(CO)
 
 SOURCES:=$(shell find $(SRC) -name '*.c')
@@ -13,8 +14,6 @@ OBJECTS=$(SOURCES:.c=.o)
 
 %.o: %.c
 	$(CC) $(CCFLAGS) -c $< -o $@
-
-TESTFLAGS=-g -Wall $(KDBFLAGS) -lpthread
 
 .PHONY: test
 test: $(OBJECTS) ./test/test.o
