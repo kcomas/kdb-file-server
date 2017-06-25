@@ -53,6 +53,9 @@ const struct KDBFS_Error kdbfs_get_error_from_code(int error_code) {
         case KDBFS_CANNOT_MERGE_HEADER:
             return kdbfs_create_error(error_code, "Cannot Join Header Strings", 500);
 
+        case KDBFS_CANNOT_CREATE_RESPONSE:
+            return kdbfs_create_error(error_code, "Cannot Merge Headers And Response", 500);
+
         default:
             return kdbfs_create_error(error_code, "No Error Code Detected, Something Went Wrong", 500);
     }

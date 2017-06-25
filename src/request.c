@@ -16,6 +16,7 @@ int kdbfs_create_request(const char* static_dir, const bool list_dir, const char
     (*request)->file_path = NULL;
     (*request)->http_body = NULL;
     (*request)->http_headers = NULL;
+    (*request)->response = NULL;
 
     (*request)->error_code = 0;
 
@@ -30,18 +31,30 @@ void kdbfs_destroy_request(struct KDBFS_Request* request) {
         free(request->file_path);
     }
 
-    if (request->http_body != NULL) {
-        free(request->http_body);
-    }
+    if (request->response == NULL) {
+        if (request->http_body != NULL) {
+            free(request->http_body);
+        }
 
-    if (request->http_headers != NULL) {
-        free(request->http_headers);
+        if (request->http_headers != NULL) {
+            free(request->http_headers);
+        }
+    } else {
+        free(request->response);
     }
 
     free(request);
 }
 
+void kdbfs_clean_response_parts(struct KDBFS_Request* request) {
+    free(request->http_body);
+    free(request->http_headers);
+}
+
+void kdbfs_end_timer(struct KDBFS_Request* request) {
+    request->end_time = clock();
+}
+
 double kdbfs_request_time(struct KDBFS_Request* request) {
-    const clock_t end_time = clock();
-    return (double)(end_time - request->start_time) / CLOCKS_PER_SEC * 1000;
+    return (double)(request->end_time - request->start_time) / CLOCKS_PER_SEC * 1000;
 }

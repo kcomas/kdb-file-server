@@ -3,6 +3,7 @@
 #include "../src/stat.h"
 #include "../src/file.h"
 #include "../src/header.h"
+#include "../src/response.h"
 
 void print_file_info(struct KDBFS_Request* request) {
 
@@ -131,6 +132,14 @@ int main(int argc, char** argv) {
     }
 
     printf("Headers:\n%s\n", example_request_1->http_headers);
+
+    rst = kdbfs_generate_response(example_request_1);
+
+    if (!rst) {
+        exit_error(example_request_1);
+    }
+
+    printf("Response:\n%s\n", example_request_1->response);
 
     kdbfs_destroy_request(example_request_1);
 

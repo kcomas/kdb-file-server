@@ -3,7 +3,8 @@
 
 #include "./request.h"
 #include "./util.h"
+#include "./error.h"
 
-bool kdbfs_generate_response(const char** response_string, struct KDBFS_Request* request);
+bool kdbfs_generate_response(struct KDBFS_Request* request);
 
 #endif

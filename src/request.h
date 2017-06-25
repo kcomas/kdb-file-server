@@ -18,11 +18,17 @@ struct KDBFS_Request {
     int error_code;
     char* http_headers;
     clock_t start_time;
+    clock_t end_time;
+    char* response;
 };
 
 int kdbfs_create_request(const char* static_dir, const bool list_dir, const char* url,  struct KDBFS_Request** request);
 
 void kdbfs_destroy_request(struct KDBFS_Request* request);
+
+void kdbfs_clean_response_parts(struct KDBFS_Request* request);
+
+void kdbfs_end_timer(struct KDBFS_Request* request);
 
 double kdbfs_request_time(struct KDBFS_Request* request);
 
