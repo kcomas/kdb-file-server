@@ -26,3 +26,18 @@ K kdbfs_fatal_error_response() {
 
     return kp("HTTP/1.1 500 Internal Server Error\r\nContnet-Type: text/html\r\n\r\n<h1 style=\"text-align: center\">500</h1>");
 }
+
+K kdbfs_select_error_response(struct KDBFS_Request* request) {
+
+    struct KDBFS_Error err = kdbfs_get_error(request);
+
+    switch (err.status_code) {
+        case 404:
+            return kdbfs_not_found_error_response();
+        case 500:
+            return kdbfs_fatal_error_response();
+        default:
+            return kdbfs_fatal_error_response();
+    }
+
+}

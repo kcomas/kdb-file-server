@@ -13,4 +13,6 @@ K kdbfs_not_found_error_response();
 
 K kdbfs_fatal_error_response();
 
+K kdbfs_select_error_response(struct KDBFS_Request* request);
+
 #endif

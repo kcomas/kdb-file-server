@@ -4,7 +4,6 @@
 #include "../src/file.h"
 #include "../src/header.h"
 #include "../src/response.h"
-#include "../src/file_server.h"
 
 void print_file_info(struct KDBFS_Request* request) {
 

@@ -1,3 +1,4 @@
 src/*.o
 test/test
+test/test2
 test/*.o
