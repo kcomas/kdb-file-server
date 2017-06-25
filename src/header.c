@@ -21,7 +21,6 @@ const char* kdbfs_get_status_message(int status_code) {
     }
 
     return status_msg;
-
 }
 
 bool kdbfs_create_status_line(struct KDBFS_Header* header, int status_code) {

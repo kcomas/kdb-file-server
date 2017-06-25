@@ -10,7 +10,7 @@ K kdbfs_run_request(K static_dir, K list_dir, K url) {
     if (code) {
         struct KDBFS_Error err = kdbfs_get_error_from_code(code);
         kdbfs_error_to_stderr(err);
-        return kdbfs_error_response(err.status_code);
+        return kdbfs_fatal_error_response();
     }
 
 }

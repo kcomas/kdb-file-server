@@ -17,6 +17,12 @@ bool kdbfs_generate_response(struct KDBFS_Request* request) {
     return true;
 }
 
-K kdbfs_error_response(int status_code) {
+K kdbfs_not_found_error_response() {
 
+    return kp("HTTP/1.1 400 Not Found\r\nContnet-Type: text/html\r\n\r\n<h1 style=\"text-align: center\">400</h1>");
+}
+
+K kdbfs_fatal_error_response() {
+
+    return kp("HTTP/1.1 500 Internal Server Error\r\nContnet-Type: text/html\r\n\r\n<h1 style=\"text-align: center\">500</h1>");
 }
