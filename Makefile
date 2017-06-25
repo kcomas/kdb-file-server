@@ -19,6 +19,10 @@ OBJECTS=$(SOURCES:.c=.o)
 test: $(OBJECTS) ./test/test.o
 	$(CC) $(TESTFLAGS) $^ $(CSHAREDO) -o ./test/test
 
+.PHONY: test2
+test2: $(OBJECTS) ./test/test2.o
+	$(CC) $(TESTFLAGS) $^ $(CSHAREDO) -o ./test/test2
+
 .PHONY: clean
 clean:
 	rm -fv test/test
