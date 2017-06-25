@@ -12,8 +12,11 @@ int kdbfs_create_request(const char* static_dir, const bool list_dir, const char
     (*request)->file_url = url;
     (*request)->static_directory = static_dir;
     (*request)->list_directory = list_dir;
-
     (*request)->file_path = NULL;
+    (*request)->total_dir_contents = 0;
+    (*request)->dir_contents = NULL;
+    (*request)->http_body_size = 0;
+    (*request)->error_code = 0;
     (*request)->http_body = NULL;
     (*request)->http_headers = NULL;
     (*request)->response = NULL;
@@ -29,6 +32,10 @@ void kdbfs_destroy_request(struct KDBFS_Request* request) {
 
     if (request->file_path != NULL) {
         free(request->file_path);
+    }
+
+    if (request->dir_contents != NULL) {
+        free(request->dir_contents);
     }
 
     if (request->response == NULL) {

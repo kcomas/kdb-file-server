@@ -14,3 +14,9 @@ bool kdbfs_join_path(struct KDBFS_Request* request) {
 
     return true;
 }
+
+
+bool kdbfs_list_directory(struct KDBFS_Request* request) {
+
+
+}

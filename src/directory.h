@@ -7,4 +7,6 @@
 
 bool kdbfs_join_path(struct KDBFS_Request* request);
 
+bool kdbfs_list_directory(struct KDBFS_Request* request);
+
 #endif

@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <sys/stat.h>
+#include <dirent.h>
 
 struct KDBFS_Request {
     const char* file_url;
@@ -12,6 +13,8 @@ struct KDBFS_Request {
     bool list_directory;
     char* file_path;
     struct stat file_stat;
+    int total_dir_contents;
+    struct dirent **dir_contents;
     const char* mime_type;
     long http_body_size;
     char* http_body;
