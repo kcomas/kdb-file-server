@@ -42,5 +42,6 @@ void kdbfs_destroy_request(struct KDBFS_Request* request) {
 }
 
 double kdbfs_request_time(struct KDBFS_Request* request) {
-    return (double)(request->end_time - request->start_time) / CLOCKS_PER_SEC * 1000;
+    const clock_t end_time = clock();
+    return (double)(end_time - request->start_time) / CLOCKS_PER_SEC * 1000;
 }

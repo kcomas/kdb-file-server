@@ -18,7 +18,6 @@ struct KDBFS_Request {
     int error_code;
     char* http_headers;
     clock_t start_time;
-    clock_t end_time;
 };
 
 int kdbfs_create_request(const char* static_dir, const bool list_dir, const char* url,  struct KDBFS_Request** request);
