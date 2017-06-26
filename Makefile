@@ -16,9 +16,12 @@ OBJECTS=$(SOURCES:.c=.o)
 	$(CC) $(CCFLAGS) -c $< -o $@
 
 .PHONY: test
-test: CCFLAGS=$(TESTFLAGS)
-test: $(OBJECTS) ./test/test.o
-	$(CC) $(TESTFLAGS) $^ $(CSHAREDO) -o ./test/test
+test: test1 test2
+
+.PHONY: test1
+test1: CCFLAGS=$(TESTFLAGS)
+test1: $(OBJECTS) ./test/test1.o
+	$(CC) $(TESTFLAGS) $^ $(CSHAREDO) -o ./test/test1
 
 .PHONY: test2
 test2: CCFLAGS=$(TESTFLAGS)
