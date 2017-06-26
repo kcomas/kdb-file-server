@@ -12,14 +12,14 @@ int kdbfs_create_request(const char* static_dir, const bool list_dir, const char
     (*request)->file_url = url;
     (*request)->static_directory = static_dir;
     (*request)->list_directory = list_dir;
-    (*request)->file_path = NULL;
+    kdbfs_prepare_malloc_string(&(*request)->file_path);
     (*request)->total_dir_contents = 0;
     (*request)->dir_contents = NULL;
     (*request)->http_body_size = 0;
     (*request)->error_code = 0;
-    (*request)->http_body = NULL;
-    (*request)->http_headers = NULL;
-    (*request)->response = NULL;
+    kdbfs_prepare_malloc_string(&(*request)->http_body);
+    kdbfs_prepare_malloc_string(&(*request)->http_headers);
+    kdbfs_prepare_malloc_string(&(*request)->response);
     (*request)->start_time = clock();
 
     return 0;
@@ -27,32 +27,23 @@ int kdbfs_create_request(const char* static_dir, const bool list_dir, const char
 
 void kdbfs_destroy_request(struct KDBFS_Request* request) {
 
-    if (request->file_path != NULL) {
-        free(request->file_path);
-    }
+    kdbfs_destroy_string(&request->file_path);
 
     if (request->dir_contents != NULL) {
         free(request->dir_contents);
     }
 
-    if (request->response == NULL) {
-        if (request->http_body != NULL) {
-            free(request->http_body);
-        }
-
-        if (request->http_headers != NULL) {
-            free(request->http_headers);
-        }
-    } else {
-        free(request->response);
+    if (!kdbfs_destroy_string(&request->response)) {
+        kdbfs_clean_response_parts(request);
     }
 
     free(request);
 }
 
 void kdbfs_clean_response_parts(struct KDBFS_Request* request) {
-    free(request->http_body);
-    free(request->http_headers);
+    kdbfs_destroy_string(&request->http_body);
+    kdbfs_destroy_string(&request->http_headers);
+
 }
 
 void kdbfs_end_timer(struct KDBFS_Request* request) {

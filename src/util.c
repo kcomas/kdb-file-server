@@ -11,6 +11,21 @@ struct KDBFS_string kdbfs_create_static_string(const char* str) {
     return string;
 }
 
+void kdbfs_prepare_malloc_string(struct KDBFS_string* string) {
+    string->length = 0;
+    string->malloc_str = NULL;
+}
+
+bool kdbfs_destroy_string(struct KDBFS_string* string) {
+
+    if (string->length == 0 && string->malloc_str == NULL) {
+        free(string->malloc_str);
+        return true;
+    }
+
+    return false;
+}
+
 const char* kdbfs_get_string(struct KDBFS_string string) {
     if (string.malloc_str == NULL) {
         return string.static_str;
