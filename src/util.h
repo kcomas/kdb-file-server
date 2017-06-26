@@ -5,12 +5,22 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
-size_t kdbfs_get_strings_lengths(size_t** totals_lengths, const int total, const char** strings);
+struct KDBFS_string {
+    size_t length;
+    const char* static_str;
+    char* malloc_str;
+};
 
-bool kdbfs_join_strings(char** dest, const int total, const char** strings);
+struct KDBFS_string kdbfs_create_static_string(const char* str);
 
-bool kdbfs_join_strings_by_char(char** dest, int total, const char** strings, const char join);
+const char* kdbfs_get_string(struct KDBFS_string string);
 
-bool kdbfs_join_strings_by_string(char** dest, int total, const char** strings, const char* join);
+size_t kdbfs_get_strings_lengths(const int total, struct KDBFS_string* strings);
+
+bool kdbfs_join_strings(struct KDBFS_string* dest, const int total, struct KDBFS_string* strings);
+
+bool kdbfs_join_strings_by_char(struct KDBFS_string* dest, const int total, struct KDBFS_string* strings, const char join);
+
+bool kdbfs_join_strings_by_string(struct KDBFS_string* dest, const int total, struct KDBFS_string* strings, const char* join);
 
 #endif
