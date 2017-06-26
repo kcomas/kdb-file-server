@@ -7,7 +7,11 @@
 #include "./util.h"
 #include "./error.h"
 
+K kdbfs_create_response_k(struct KDBFS_Request* request);
+
 bool kdbfs_generate_response(struct KDBFS_Request* request);
+
+K kdbfs_redirect_to_index_response();
 
 K kdbfs_not_found_error_response();
 

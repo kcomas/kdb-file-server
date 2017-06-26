@@ -5,10 +5,13 @@
 #include "./stat.h"
 #include "./directory.h"
 #include "./file.h"
+#include "./header.h"
 
 bool kdbfs_file_operations(struct KDBFS_Request* request);
 
 bool kdbfs_directory_operations(struct KDBFS_Request* request);
+
+bool kdbfs_file_dir_split(struct KDBFS_Request* request);
 
 K kdbfs_run_request(K static_dir, K list_dir, K url);
 

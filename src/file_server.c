@@ -1,11 +1,14 @@
 
 #include "./file_server.h"
 
-static const int kdbfs_total_fns = 2;
+static const int kdbfs_total_fns = 5;
 
 bool (*kdbfs_fns[]) (struct KDBFS_Request* request) = {
     kdbfs_join_path,
-    kdbfs_stat_request
+    kdbfs_stat_request,
+    kdbfs_file_dir_split,
+    kdbfs_build_headers,
+    kdbfs_generate_response
 };
 
 bool kdbfs_file_operations(struct KDBFS_Request* request) {
@@ -29,6 +32,24 @@ bool kdbfs_directory_operations(struct KDBFS_Request* request) {
         return false;
     }
 
+    return false;
+}
+
+bool kdbfs_file_dir_split(struct KDBFS_Request* request) {
+
+    if (kdbfs_is_file(request)) {
+        return kdbfs_file_operations(request);
+    } else if (kdbfs_is_directory(request)) {
+        if (request->list_directory) {
+            return kdbfs_directory_operations(request);
+        } else {
+            request->error_code = KDBFS_REDIRECT_TO_INDEX;
+            return false;
+        }
+    }
+
+    request->error_code = KDBFS_INCORRECT_FILE_TYPE;
+    return false;
 }
 
 K kdbfs_run_request(K static_dir, K list_dir, K url) {
@@ -47,7 +68,7 @@ K kdbfs_run_request(K static_dir, K list_dir, K url) {
     K rsp;
 
     for (int i = 0; i < kdbfs_total_fns; i++) {
-        rst = kdbfs_fns[i](request);
+        rst = (*kdbfs_fns[i])(request);
         if (!rst) {
             rsp = kdbfs_select_error_response(request);
             kdbfs_destroy_request(request);
@@ -55,4 +76,9 @@ K kdbfs_run_request(K static_dir, K list_dir, K url) {
         }
     }
 
+    rsp = kdbfs_create_response_k(request);
+
+    kdbfs_destroy_request(request);
+
+    return rsp;
 }

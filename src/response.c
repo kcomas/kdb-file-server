@@ -1,6 +1,11 @@
 
 #include "./response.h"
 
+K kdbfs_create_response_k(struct KDBFS_Request* request) {
+
+    return kp(request->response);
+}
+
 bool kdbfs_generate_response(struct KDBFS_Request* request) {
 
     const char* strings[] = { request->http_headers, request->http_body };
@@ -15,6 +20,11 @@ bool kdbfs_generate_response(struct KDBFS_Request* request) {
     kdbfs_clean_response_parts(request);
 
     return true;
+}
+
+K kdbfs_redirect_to_index_response() {
+
+    return kp("HTTP/1.1 302 Found\r\nLocation: /index.html\r\n\r\n");
 }
 
 K kdbfs_not_found_error_response() {
@@ -32,6 +42,8 @@ K kdbfs_select_error_response(struct KDBFS_Request* request) {
     struct KDBFS_Error err = kdbfs_get_error(request);
 
     switch (err.status_code) {
+        case 302:
+            return kdbfs_redirect_to_index_response();
         case 404:
             return kdbfs_not_found_error_response();
         case 500:

@@ -59,6 +59,12 @@ const struct KDBFS_Error kdbfs_get_error_from_code(int error_code) {
         case KDBFS_SCANDIR_FAIL:
             return kdbfs_create_error(error_code, "Scandir Cannot List Directory", 500);
 
+        case KDBFS_INCORRECT_FILE_TYPE:
+            return kdbfs_create_error(error_code, "Requested File From Url Is Not A File Or Directory", 500);
+
+        case KDBFS_REDIRECT_TO_INDEX:
+            return kdbfs_create_error(error_code, "Request Will Be Redirected To Index", 302);
+
         default:
             return kdbfs_create_error(error_code, "No Error Code Detected, Something Went Wrong", 500);
     }
