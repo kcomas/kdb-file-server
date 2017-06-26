@@ -29,7 +29,7 @@ K kdbfs_redirect_to_index_response() {
 
 K kdbfs_not_found_error_response() {
 
-    return kp("HTTP/1.1 400 Not Found\r\nContnet-Type: text/html\r\n\r\n<h1 style=\"text-align: center\">400</h1>");
+    return kp("HTTP/1.1 404 Not Found\r\nContnet-Type: text/html\r\n\r\n<h1 style=\"text-align: center\">404</h1>");
 }
 
 K kdbfs_fatal_error_response() {

@@ -56,7 +56,7 @@ K kdbfs_run_request(K static_dir, K list_dir, K url) {
 
     struct KDBFS_Request* request;
 
-    int code = kdbfs_create_request(static_dir->s, kG(list_dir), list_dir->s, &request);
+    int code = kdbfs_create_request(static_dir->s, kG(list_dir), url->s, &request);
 
     if (code) {
         struct KDBFS_Error err = kdbfs_get_error_from_code(code);

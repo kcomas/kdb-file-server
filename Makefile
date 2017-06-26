@@ -30,7 +30,7 @@ test2: $(OBJECTS) ./test/test2.o
 
 .PHONY: clean
 clean:
-	rm -fv test/test
+	rm -fv test/test1
 	rm -fv test/test2
 	rm -fv test/*.o
 	rm -fv src/*.o
