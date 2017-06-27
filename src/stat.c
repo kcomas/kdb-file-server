@@ -11,7 +11,7 @@ bool kdbfs_is_directory(struct KDBFS_Request* request) {
 
 bool kdbfs_stat_request(struct KDBFS_Request* request) {
 
-    int ret = stat(request->file_path, &request->file_stat);
+    int ret = stat(request->file_path.malloc_str, &request->file_stat);
 
     if (ret < 0) {
         request->error_code = KDBFS_FILE_NOT_FOUND;

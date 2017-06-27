@@ -9,14 +9,14 @@
 #include "./util.h"
 
 struct KDBFS_Request {
-    const char* file_url;
-    const char* static_directory;
+    struct KDBFS_string file_url;
+    struct KDBFS_string static_directory;
     bool list_directory;
     struct KDBFS_string file_path;
     struct stat file_stat;
     int total_dir_contents;
     struct dirent **dir_contents;
-    const char* mime_type;
+    struct KDBFS_string mime_type;
     long http_body_size;
     struct KDBFS_string http_body;
     int error_code;

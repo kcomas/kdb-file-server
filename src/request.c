@@ -9,8 +9,8 @@ int kdbfs_create_request(const char* static_dir, const bool list_dir, const char
         return 1;
     }
 
-    (*request)->file_url = url;
-    (*request)->static_directory = static_dir;
+    (*request)->file_url = kdbfs_create_static_string(url);
+    (*request)->static_directory = kdbfs_create_static_string(static_dir);
     (*request)->list_directory = list_dir;
     kdbfs_prepare_malloc_string(&(*request)->file_path);
     (*request)->total_dir_contents = 0;

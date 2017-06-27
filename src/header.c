@@ -9,25 +9,24 @@ const static struct KDBFS_Status_Messages kdbfs_status_messages[] = {
     {500, "Internal Server Error"}
 };
 
-const char* kdbfs_get_status_message(int status_code) {
-
-    const char* status_msg = NULL;
+struct KDBFS_string kdbfs_get_status_message(int status_code) {
 
     for (int i = 0; i < kdbfs_status_messages_length; i++) {
         if (status_code == kdbfs_status_messages[i].status_code) {
-            status_msg = kdbfs_status_messages[i].status_message;
-            break;
+            return kdbfs_create_static_string(kdbfs_status_messages[i].status_message);
         }
     }
 
-    return status_msg;
+    struct KDBFS_string err;
+    err.length = 0;
+    return err;
 }
 
 bool kdbfs_create_status_line(struct KDBFS_Header* header, int status_code) {
 
-    const char* status_msg = kdbfs_get_status_message(status_code);
+    struct KDBFS_string status_msg = kdbfs_get_status_message(status_code);
 
-    if (status_msg == NULL) {
+    if (status_msg.length == 0) {
         return false;
     }
 
@@ -35,7 +34,11 @@ bool kdbfs_create_status_line(struct KDBFS_Header* header, int status_code) {
 
     snprintf(status_code_str, 4, "%d", status_code);
 
-    const char* strings[] = { "HTTP/1.1", status_code_str, status_msg };
+    struct KDBFS_string strings[] = {
+        kdbfs_create_static_string("HTTP/1.1"),
+        kdbfs_create_static_string(status_code_str),
+        status_msg
+    };
 
     bool ret = kdbfs_join_strings_by_char(&header->status_line, 3, strings, ' ');
 
@@ -46,9 +49,13 @@ bool kdbfs_create_status_line(struct KDBFS_Header* header, int status_code) {
     return true;
 }
 
-bool kdbfs_create_content_line(struct KDBFS_Header* header, const char* mime_type) {
+bool kdbfs_create_content_line(struct KDBFS_Header* header, struct KDBFS_string mime_type) {
 
-    const char* strings[] = { "Content-Type: ", mime_type, "; charset=utf-8" };
+    struct KDBFS_string strings[] = {
+        kdbfs_create_static_string("Content-Type: "),
+        mime_type,
+        kdbfs_create_static_string("; charset=utf-8")
+    };
 
     bool ret = kdbfs_join_strings(&header->content_line, 3, strings);
 
@@ -67,21 +74,17 @@ bool kdbfs_create_header(struct KDBFS_Header** header) {
         return false;
     }
 
-    (*header)->status_line = NULL;
-    (*header)->content_line = NULL;
+    kdbfs_prepare_malloc_string(&(*header)->status_line);
+    kdbfs_prepare_malloc_string(&(*header)->content_line);
 
     return true;
 }
 
 void kdbfs_destory_header(struct KDBFS_Header* header) {
 
-    if (header->status_line != NULL) {
-        free(header->status_line);
-    }
+    kdbfs_destroy_string(&header->status_line);
 
-    if (header->content_line != NULL) {
-        free(header->content_line);
-    }
+    kdbfs_destroy_string(&header->content_line);
 
     free(header);
 }
@@ -113,7 +116,11 @@ bool kdbfs_build_headers(struct KDBFS_Request* request) {
         return false;
     }
 
-    const char* strings[] = { header->status_line, header->content_line, "" };
+    struct KDBFS_string strings[] = {
+        header->status_line,
+        header->content_line,
+        kdbfs_create_static_string("")
+    };
 
     ret = kdbfs_join_strings_by_string(&request->http_headers, 3, strings, "\r\n");
 

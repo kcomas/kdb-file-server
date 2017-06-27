@@ -3,12 +3,12 @@
 
 K kdbfs_create_response_k(struct KDBFS_Request* request) {
 
-    return kp(request->response);
+    return kp(request->response.malloc_str);
 }
 
 bool kdbfs_generate_response(struct KDBFS_Request* request) {
 
-    const char* strings[] = { request->http_headers, request->http_body };
+    struct KDBFS_string strings[] = { request->http_headers, request->http_body };
 
     bool ret = kdbfs_join_strings(&request->response, 2, strings);
 

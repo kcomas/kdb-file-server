@@ -18,7 +18,7 @@ void kdbfs_prepare_malloc_string(struct KDBFS_string* string) {
 
 bool kdbfs_destroy_string(struct KDBFS_string* string) {
 
-    if (string->length == 0 && string->malloc_str == NULL) {
+    if (string->length != 0 && string->malloc_str != NULL) {
         free(string->malloc_str);
         return true;
     }
@@ -129,6 +129,7 @@ bool kdbfs_join_strings_by_string(struct KDBFS_string* dest, const int total, st
 
     size_t new_len = join_len * total + total_size;
     dest->malloc_str = (char*) malloc(new_len + 1);
+    dest->length = new_len;
 
     if (!dest->malloc_str) {
         return false;

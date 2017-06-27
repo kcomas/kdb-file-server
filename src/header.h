@@ -6,8 +6,8 @@
 #include "./util.h"
 
 struct KDBFS_Header {
-    char* status_line;
-    char* content_line;
+    struct KDBFS_string status_line;
+    struct KDBFS_string content_line;
 };
 
 struct KDBFS_Status_Messages {
@@ -15,11 +15,11 @@ struct KDBFS_Status_Messages {
     const char* status_message;
 };
 
-const char* kdbfs_get_status_message(int status_code);
+struct KDBFS_string kdbfs_get_status_message(int status_code);
 
 bool kdbfs_create_status_line(struct KDBFS_Header* header, int status_code);
 
-bool kdbfs_create_content_line(struct KDBFS_Header* header, const char* mime_type);
+bool kdbfs_create_content_line(struct KDBFS_Header* header, struct KDBFS_string mime_type);
 
 bool kdbfs_create_header(struct KDBFS_Header** header);
 

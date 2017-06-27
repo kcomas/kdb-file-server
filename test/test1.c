@@ -7,9 +7,9 @@
 
 void print_file_info(struct KDBFS_Request* request) {
 
-    printf("File Url: %s\n", request->file_url);
-    printf("Directory: %s\n", request->static_directory);
-    printf("Joined Path: %s\n", request->file_path);
+    printf("File Url: %s\n", request->file_url.static_str);
+    printf("Directory: %s\n", request->static_directory.static_str);
+    printf("Joined Path: %s\n", request->file_path.malloc_str);
     printf("List Dir?: %d\n", request->list_directory);
     printf("\n");
 }
@@ -24,13 +24,13 @@ void print_file_stat(struct KDBFS_Request* request) {
 
 void print_file_data(struct KDBFS_Request* request) {
 
-    printf("%s\n", request->http_body);
+    printf("%s\n", request->http_body.malloc_str);
 
 }
 
 void print_mime_type(struct KDBFS_Request* request) {
 
-    printf("Mime Type: %s\n", request->mime_type);
+    printf("Mime Type: %s\n", request->mime_type.static_str);
     printf("\n");
 
 }
@@ -89,9 +89,14 @@ int main(int argc, char** argv) {
 
     print_mime_type(example_request_1);
 
-    const char* strings[] = {"12", "34", "56", ""};
+    struct KDBFS_string strings[] = {
+        kdbfs_create_static_string("12"),
+        kdbfs_create_static_string("34"),
+        kdbfs_create_static_string("56"),
+        kdbfs_create_static_string("")
+    };
 
-    char* simple_join;
+    struct KDBFS_string simple_join;
     rst = kdbfs_join_strings(&simple_join, 4, strings);
 
     if (!rst) {
@@ -99,11 +104,11 @@ int main(int argc, char** argv) {
         return 1;
     }
 
-    printf("Joined Strings: %s\n", simple_join);
+    printf("Joined Strings: %s\n", simple_join.malloc_str);
 
-    free(simple_join);
+    kdbfs_destroy_string(&simple_join);
 
-    char* join_by_space;
+    struct KDBFS_string join_by_space;
     rst = kdbfs_join_strings_by_char(&join_by_space, 4, strings, ' ');
 
     if (!rst) {
@@ -111,11 +116,11 @@ int main(int argc, char** argv) {
         return 1;
     }
 
-    printf("Joined Strings By Space: %s\n", join_by_space);
+    printf("Joined Strings By Space: %s\n", join_by_space.malloc_str);
 
-    free(join_by_space);
+    kdbfs_destroy_string(&join_by_space);
 
-    char* join_by_lines;
+    struct KDBFS_string join_by_lines;
     rst = kdbfs_join_strings_by_string(&join_by_lines, 4, strings, "--");
 
     if (!rst) {
@@ -123,9 +128,9 @@ int main(int argc, char** argv) {
         return 1;
     }
 
-    printf("Joined Strings By Strings: %s\n", join_by_lines);
+    printf("Joined Strings By Strings: %s\n", join_by_lines.malloc_str);
 
-    free(join_by_lines);
+    kdbfs_destroy_string(&join_by_lines);
 
     rst = kdbfs_build_headers(example_request_1);
 
@@ -133,7 +138,7 @@ int main(int argc, char** argv) {
         exit_error(example_request_1);
     }
 
-    printf("Headers:\n%s\n", example_request_1->http_headers);
+    printf("Headers:\n%s\n", example_request_1->http_headers.malloc_str);
 
     rst = kdbfs_generate_response(example_request_1);
 
@@ -141,7 +146,7 @@ int main(int argc, char** argv) {
         exit_error(example_request_1);
     }
 
-    printf("Response:\n%s\n", example_request_1->response);
+    printf("Response:\n%s\n", example_request_1->response.malloc_str);
 
     kdbfs_destroy_request(example_request_1);
 
