@@ -7,9 +7,9 @@
 
 void print_file_info(struct KDBFS_Request* request) {
 
-    printf("File Url: %s\n", request->file_url.static_str);
-    printf("Directory: %s\n", request->static_directory.static_str);
-    printf("Joined Path: %s\n", request->file_path.malloc_str);
+    printf("File Url: %s\n", kdbfs_get_string(request->file_url));
+    printf("Directory: %s\n", kdbfs_get_string(request->static_directory));
+    printf("Joined Path: %s\n", kdbfs_get_string(request->file_path));
     printf("List Dir?: %d\n", request->list_directory);
     printf("\n");
 }
@@ -24,13 +24,13 @@ void print_file_stat(struct KDBFS_Request* request) {
 
 void print_file_data(struct KDBFS_Request* request) {
 
-    printf("%s\n", request->http_body.malloc_str);
+    printf("%s\n", kdbfs_get_string(request->http_body));
 
 }
 
 void print_mime_type(struct KDBFS_Request* request) {
 
-    printf("Mime Type: %s\n", request->mime_type.static_str);
+    printf("Mime Type: %s\n", kdbfs_get_string(request->mime_type));
     printf("\n");
 
 }
@@ -104,7 +104,7 @@ int main(int argc, char** argv) {
         return 1;
     }
 
-    printf("Joined Strings: %s\n", simple_join.malloc_str);
+    printf("Joined Strings: %s\n", kdbfs_get_string(simple_join));
 
     kdbfs_destroy_string(&simple_join);
 
@@ -116,7 +116,7 @@ int main(int argc, char** argv) {
         return 1;
     }
 
-    printf("Joined Strings By Space: %s\n", join_by_space.malloc_str);
+    printf("Joined Strings By Space: %s\n", kdbfs_get_string(join_by_space));
 
     kdbfs_destroy_string(&join_by_space);
 
@@ -128,7 +128,7 @@ int main(int argc, char** argv) {
         return 1;
     }
 
-    printf("Joined Strings By Strings: %s\n", join_by_lines.malloc_str);
+    printf("Joined Strings By Strings: %s\n", kdbfs_get_string(join_by_lines));
 
     kdbfs_destroy_string(&join_by_lines);
 
@@ -138,7 +138,7 @@ int main(int argc, char** argv) {
         exit_error(example_request_1);
     }
 
-    printf("Headers:\n%s\n", example_request_1->http_headers.malloc_str);
+    printf("Headers:\n%s\n", kdbfs_get_string(example_request_1->http_headers));
 
     rst = kdbfs_generate_response(example_request_1);
 
@@ -146,7 +146,7 @@ int main(int argc, char** argv) {
         exit_error(example_request_1);
     }
 
-    printf("Response:\n%s\n", example_request_1->response.malloc_str);
+    printf("Response:\n%s\n", kdbfs_get_string(example_request_1->response));
 
     kdbfs_destroy_request(example_request_1);
 

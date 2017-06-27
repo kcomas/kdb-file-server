@@ -12,9 +12,9 @@ const static struct KDBFS_Mime_Types kdbfs_mimes[] = {
 
 bool kdbfs_determine_mime_type(struct KDBFS_Request* request) {
 
-    const char* last_dot = strrchr(request->file_url.static_str, '.');
+    const char* last_dot = strrchr(kdbfs_get_string(request->file_url), '.');
 
-    if (!last_dot || last_dot == request->file_url.static_str) {
+    if (!last_dot || last_dot == kdbfs_get_string(request->file_url)) {
         request->error_code = KDBFS_FILE_HAS_NO_EXTENSION;
         request->mime_type = kdbfs_create_static_string("application/octet-stream");
         return false;
@@ -38,7 +38,7 @@ bool kdbfs_load_file(struct KDBFS_Request* request) {
 
     FILE *fp;
 
-    fp = fopen(request->file_path.malloc_str, "rb");
+    fp = fopen(kdbfs_get_string(request->file_path), "rb");
 
     if (!fp) {
         request->error_code = KDBFS_CANNOT_OPEN_FILE;

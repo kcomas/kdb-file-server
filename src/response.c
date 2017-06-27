@@ -3,7 +3,7 @@
 
 K kdbfs_create_response_k(struct KDBFS_Request* request) {
 
-    return kp(request->response.malloc_str);
+    return kp((char *)kdbfs_get_string(request->response));
 }
 
 bool kdbfs_generate_response(struct KDBFS_Request* request) {
