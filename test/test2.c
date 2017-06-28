@@ -3,9 +3,19 @@
 
 int main(int argc, char** argv) {
 
-    K static_dir = ks("./examples");
+    char* examples_str;
+    kdbfs_copy_string(&examples_str, "./examples");
+
+    K static_dir = ks(examples_str);
+    free(examples_str);
+
     K list_dir = kg(false);
-    K url = ks("test.html");
+
+    char* file_str;
+    kdbfs_copy_string(&file_str, "test.html");
+
+    K url = ks(file_str);
+    free(file_str);
 
     K rsp = kdbfs_run_request(static_dir, list_dir, url);
 
@@ -16,7 +26,11 @@ int main(int argc, char** argv) {
 
     printf("---\n");
 
-    K static_dir_2 = ks("./examples/");
+    char* examples_2_str;
+    kdbfs_copy_string(&examples_2_str, "./examples/");
+    free(examples_2_str);
+
+    K static_dir_2 = ks(examples_2_str);
 
     K rsp_2 = kdbfs_run_request(static_dir_2, list_dir, url);
 
