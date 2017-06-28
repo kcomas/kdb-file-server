@@ -1,9 +1,9 @@
 
 #include "./util.h"
 
-struct KDBFS_string kdbfs_create_static_string(const char* str) {
+struct KDBFS_String kdbfs_create_static_string(const char* str) {
 
-    struct KDBFS_string string;
+    struct KDBFS_String string;
     string.length = strlen(str);
     string.static_str = str;
     string.malloc_str = NULL;
@@ -11,12 +11,12 @@ struct KDBFS_string kdbfs_create_static_string(const char* str) {
     return string;
 }
 
-void kdbfs_prepare_malloc_string(struct KDBFS_string* string) {
+void kdbfs_prepare_malloc_string(struct KDBFS_String* string) {
     string->length = 0;
     string->malloc_str = NULL;
 }
 
-bool kdbfs_destroy_string(struct KDBFS_string* string) {
+bool kdbfs_destroy_string(struct KDBFS_String* string) {
 
     if (string->length != 0 && string->malloc_str != NULL) {
         free(string->malloc_str);
@@ -26,7 +26,7 @@ bool kdbfs_destroy_string(struct KDBFS_string* string) {
     return false;
 }
 
-const char* kdbfs_get_string(struct KDBFS_string string) {
+const char* kdbfs_get_string(struct KDBFS_String string) {
     if (string.malloc_str == NULL) {
         return string.static_str;
     }
@@ -34,7 +34,7 @@ const char* kdbfs_get_string(struct KDBFS_string string) {
     return string.malloc_str;
 }
 
-size_t kdbfs_get_strings_lengths(const int total, struct KDBFS_string* strings) {
+size_t kdbfs_get_strings_lengths(const int total, struct KDBFS_String* strings) {
 
     size_t total_size = 0;
 
@@ -45,7 +45,7 @@ size_t kdbfs_get_strings_lengths(const int total, struct KDBFS_string* strings) 
     return total_size;
 }
 
-bool kdbfs_join_strings(struct KDBFS_string* dest, const int total, struct KDBFS_string* strings) {
+bool kdbfs_join_strings(struct KDBFS_String* dest, const int total, struct KDBFS_String* strings) {
 
     size_t total_size = kdbfs_get_strings_lengths(total, strings);
 
@@ -78,7 +78,7 @@ bool kdbfs_join_strings(struct KDBFS_string* dest, const int total, struct KDBFS
 }
 
 
-bool kdbfs_join_strings_by_char(struct KDBFS_string* dest, const int total, struct KDBFS_string* strings, const char join) {
+bool kdbfs_join_strings_by_char(struct KDBFS_String* dest, const int total, struct KDBFS_String* strings, const char join) {
 
     const size_t join_len = 1;
 
@@ -117,7 +117,7 @@ bool kdbfs_join_strings_by_char(struct KDBFS_string* dest, const int total, stru
     return true;
 }
 
-bool kdbfs_join_strings_by_string(struct KDBFS_string* dest, const int total, struct KDBFS_string* strings, const char* join) {
+bool kdbfs_join_strings_by_string(struct KDBFS_String* dest, const int total, struct KDBFS_String* strings, const char* join) {
 
     size_t join_len = strlen(join);
 

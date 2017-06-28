@@ -3,7 +3,7 @@
 
 bool kdbfs_join_path(struct KDBFS_Request* request) {
 
-    struct KDBFS_string strings[] = { request->static_directory, request->file_url };
+    struct KDBFS_String strings[] = { request->static_directory, request->file_url };
 
     bool ret = kdbfs_join_strings(&request->file_path, 2, strings);
 

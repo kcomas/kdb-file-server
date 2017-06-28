@@ -9,21 +9,21 @@
 #include "./util.h"
 
 struct KDBFS_Request {
-    struct KDBFS_string file_url;
-    struct KDBFS_string static_directory;
+    struct KDBFS_String file_url;
+    struct KDBFS_String static_directory;
     bool list_directory;
-    struct KDBFS_string file_path;
+    struct KDBFS_String file_path;
     struct stat file_stat;
     int total_dir_contents;
     struct dirent **dir_contents;
-    struct KDBFS_string mime_type;
+    struct KDBFS_String mime_type;
     long http_body_size;
-    struct KDBFS_string http_body;
+    struct KDBFS_String http_body;
     int error_code;
-    struct KDBFS_string http_headers;
+    struct KDBFS_String http_headers;
     clock_t start_time;
     clock_t end_time;
-    struct KDBFS_string response;
+    struct KDBFS_String response;
 };
 
 int kdbfs_create_request(const char* static_dir, const bool list_dir, const char* url,  struct KDBFS_Request** request);

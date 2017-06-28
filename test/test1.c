@@ -89,14 +89,14 @@ int main(int argc, char** argv) {
 
     print_mime_type(example_request_1);
 
-    struct KDBFS_string strings[] = {
+    struct KDBFS_String strings[] = {
         kdbfs_create_static_string("12"),
         kdbfs_create_static_string("34"),
         kdbfs_create_static_string("56"),
         kdbfs_create_static_string("")
     };
 
-    struct KDBFS_string simple_join;
+    struct KDBFS_String simple_join;
     rst = kdbfs_join_strings(&simple_join, 4, strings);
 
     if (!rst) {
@@ -108,7 +108,7 @@ int main(int argc, char** argv) {
 
     kdbfs_destroy_string(&simple_join);
 
-    struct KDBFS_string join_by_space;
+    struct KDBFS_String join_by_space;
     rst = kdbfs_join_strings_by_char(&join_by_space, 4, strings, ' ');
 
     if (!rst) {
@@ -120,7 +120,7 @@ int main(int argc, char** argv) {
 
     kdbfs_destroy_string(&join_by_space);
 
-    struct KDBFS_string join_by_lines;
+    struct KDBFS_String join_by_lines;
     rst = kdbfs_join_strings_by_string(&join_by_lines, 4, strings, "--");
 
     if (!rst) {

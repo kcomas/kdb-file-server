@@ -8,7 +8,7 @@ K kdbfs_create_response_k(struct KDBFS_Request* request) {
 
 bool kdbfs_generate_response(struct KDBFS_Request* request) {
 
-    struct KDBFS_string strings[] = { request->http_headers, request->http_body };
+    struct KDBFS_String strings[] = { request->http_headers, request->http_body };
 
     bool ret = kdbfs_join_strings(&request->response, 2, strings);
 

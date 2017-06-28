@@ -9,7 +9,7 @@ const static struct KDBFS_Status_Messages kdbfs_status_messages[] = {
     {500, "Internal Server Error"}
 };
 
-struct KDBFS_string kdbfs_get_status_message(int status_code) {
+struct KDBFS_String kdbfs_get_status_message(int status_code) {
 
     for (int i = 0; i < kdbfs_status_messages_length; i++) {
         if (status_code == kdbfs_status_messages[i].status_code) {
@@ -17,14 +17,14 @@ struct KDBFS_string kdbfs_get_status_message(int status_code) {
         }
     }
 
-    struct KDBFS_string err;
+    struct KDBFS_String err;
     err.length = 0;
     return err;
 }
 
 bool kdbfs_create_status_line(struct KDBFS_Header* header, int status_code) {
 
-    struct KDBFS_string status_msg = kdbfs_get_status_message(status_code);
+    struct KDBFS_String status_msg = kdbfs_get_status_message(status_code);
 
     if (status_msg.length == 0) {
         return false;
@@ -34,7 +34,7 @@ bool kdbfs_create_status_line(struct KDBFS_Header* header, int status_code) {
 
     snprintf(status_code_str, 4, "%d", status_code);
 
-    struct KDBFS_string strings[] = {
+    struct KDBFS_String strings[] = {
         kdbfs_create_static_string("HTTP/1.1"),
         kdbfs_create_static_string(status_code_str),
         status_msg
@@ -49,9 +49,9 @@ bool kdbfs_create_status_line(struct KDBFS_Header* header, int status_code) {
     return true;
 }
 
-bool kdbfs_create_content_line(struct KDBFS_Header* header, struct KDBFS_string mime_type) {
+bool kdbfs_create_content_line(struct KDBFS_Header* header, struct KDBFS_String mime_type) {
 
-    struct KDBFS_string strings[] = {
+    struct KDBFS_String strings[] = {
         kdbfs_create_static_string("Content-Type: "),
         mime_type,
         kdbfs_create_static_string("; charset=utf-8")
@@ -116,7 +116,7 @@ bool kdbfs_build_headers(struct KDBFS_Request* request) {
         return false;
     }
 
-    struct KDBFS_string strings[] = {
+    struct KDBFS_String strings[] = {
         header->status_line,
         header->content_line,
         kdbfs_create_static_string("")
