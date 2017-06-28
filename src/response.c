@@ -24,17 +24,22 @@ bool kdbfs_generate_response(struct KDBFS_Request* request) {
 
 K kdbfs_redirect_to_index_response() {
 
-    return kp("HTTP/1.1 302 Found\r\nLocation: /index.html\r\n\r\n");
+    return kp("HTTP/1.1 302 Found\r\n"
+            "Location: /index.html\r\n\r\n");
 }
 
 K kdbfs_not_found_error_response() {
 
-    return kp("HTTP/1.1 404 Not Found\r\nContnet-Type: text/html\r\n\r\n<h1 style=\"text-align: center\">404</h1>");
+    return kp("HTTP/1.1 404 Not Found\r\n"
+            "Contnet-Type: text/html\r\n\r\n"
+            "<h1 style=\"text-align: center\">404</h1>");
 }
 
 K kdbfs_fatal_error_response() {
 
-    return kp("HTTP/1.1 500 Internal Server Error\r\nContnet-Type: text/html\r\n\r\n<h1 style=\"text-align: center\">500</h1>");
+    return kp("HTTP/1.1 500 Internal Server Error\r\n"
+            "Contnet-Type: text/html\r\n\r\n"
+            "<h1 style=\"text-align: center\">500</h1>");
 }
 
 K kdbfs_select_error_response(struct KDBFS_Request* request) {
