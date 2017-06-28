@@ -12,7 +12,11 @@ int main(int argc, char** argv) {
     K list_dir = kg(false);
 
     char* file_str;
-    kdbfs_copy_string(&file_str, "test.html");
+    bool ret = kdbfs_copy_string(&file_str, "test.html");
+
+    if (!ret) {
+        return 1;
+    }
 
     K url = ks(file_str);
     free(file_str);
@@ -27,10 +31,14 @@ int main(int argc, char** argv) {
     printf("---\n");
 
     char* examples_2_str;
-    kdbfs_copy_string(&examples_2_str, "./examples/");
-    free(examples_2_str);
+    ret = kdbfs_copy_string(&examples_2_str, "./examples/");
+
+    if (!ret) {
+        return 1;
+    }
 
     K static_dir_2 = ks(examples_2_str);
+    free(examples_2_str);
 
     K rsp_2 = kdbfs_run_request(static_dir_2, list_dir, url);
 

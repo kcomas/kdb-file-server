@@ -157,7 +157,7 @@ bool kdbfs_join_strings_by_string(struct KDBFS_String* dest, const int total, st
 
 bool kdbfs_copy_string(char** dest, const char* source) {
 
-    const size_t len = sizeof(source) + 1;
+    const size_t len = strlen(source) + 1;
 
     *dest = (char*) malloc(len);
 
