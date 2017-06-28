@@ -27,4 +27,6 @@ bool kdbfs_join_strings_by_char(struct KDBFS_String* dest, const int total, stru
 
 bool kdbfs_join_strings_by_string(struct KDBFS_String* dest, const int total, struct KDBFS_String* strings, const char* join);
 
+bool kdbfs_copy_string(char** dest, const char* source);
+
 #endif
