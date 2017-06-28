@@ -15,7 +15,6 @@ int kdbfs_create_request(const char* static_dir, const bool list_dir, const char
     kdbfs_prepare_malloc_string(&(*request)->file_path);
     (*request)->total_dir_contents = 0;
     (*request)->dir_contents = NULL;
-    (*request)->http_body_size = 0;
     (*request)->error_code = 0;
     kdbfs_prepare_malloc_string(&(*request)->http_body);
     kdbfs_prepare_malloc_string(&(*request)->http_headers);

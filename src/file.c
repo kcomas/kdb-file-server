@@ -45,13 +45,10 @@ bool kdbfs_load_file(struct KDBFS_Request* request) {
         return false;
     }
 
-    fseek(fp, 0L, SEEK_END);
-    request->http_body_size = ftell(fp);
-    rewind(fp);
+    request->http_body.malloc_str = (char*) malloc(request->file_stat.st_size + 1);
+    request->http_body.length = (size_t) request->file_stat.st_size;
 
-    request->http_body.malloc_str = (char*) malloc(request->http_body_size + 1);
-    request->http_body.length = (size_t) request->http_body_size;
-    memset(request->http_body.malloc_str, '\0', request->http_body_size + 1);
+    memset(request->http_body.malloc_str, '\0', request->http_body.length + 1);
 
     if (!request->http_body.malloc_str) {
         fclose(fp);
@@ -59,7 +56,7 @@ bool kdbfs_load_file(struct KDBFS_Request* request) {
         return false;
     }
 
-    size_t ret = fread(request->http_body.malloc_str, request->http_body_size, 1, fp);
+    size_t ret = fread(request->http_body.malloc_str, request->http_body.length, 1, fp);
 
     if (1 != ret) {
         fclose(fp);

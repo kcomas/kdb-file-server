@@ -17,7 +17,6 @@ struct KDBFS_Request {
     int total_dir_contents;
     struct dirent **dir_contents;
     struct KDBFS_String mime_type;
-    long http_body_size;
     struct KDBFS_String http_body;
     int error_code;
     struct KDBFS_String http_headers;
